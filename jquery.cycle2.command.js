@@ -1,4 +1,4 @@
-/*! command plugin for Cycle2;  version: BETA-20120910 */
+/*! command plugin for Cycle2;  version: BETA-20120923 */
 (function($) {
 "use strict";
 
@@ -23,6 +23,7 @@ $.fn.cycle = function( options ) {
                 return;
             }
             else {
+                cmd = cmd == 'goto' ? 'jump' : cmd; // issue #3; change 'goto' to 'jump' internally
                 cmdFn = opts.API[ cmd ];
                 if ( $.isFunction( cmdFn )) {
                     cmdArgs = $.makeArray( args );
@@ -73,7 +74,7 @@ $.extend( c2.API, {
         opts.container.removeData( 'cycle.opts' );
     },
 
-    goto: function( index ) {
+    jump: function( index ) {
         // go to the requested slide
         var opts = this.opts();
         var num = parseInt( index, 10 );

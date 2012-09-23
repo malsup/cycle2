@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: BETA-20120910
+ * jQuery Cycle2 - Version: BETA-20120923
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = 'BETA-20120910';
+var version = 'BETA-20120923';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -491,11 +491,6 @@ $.fn.cycle.API = {
 // expose default logger
 $.fn.cycle.log = log;
 
-// automatically find and run slideshows
-$(document).ready(function() {
-    $( $.fn.cycle.defaults.autoSelector ).cycle();
-});
-
 $.fn.cycle.version = function() { return 'Cycle2: ' + version; };
 
 // helper functions
@@ -570,5 +565,10 @@ $.fn.cycle.defaults = {
     sync:             true,
     timeout:          4000
 };
+
+// automatically find and run slideshows
+$(document).ready(function() {
+    $( $.fn.cycle.defaults.autoSelector ).cycle();
+});
 
 })(jQuery);
