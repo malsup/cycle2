@@ -22,11 +22,13 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
     // don't hide inactive slides; hiding video causes reload when it's shown again
     opts.hideNonActive = false; 
 
-    opts.container.find( opts.slides ).each(function() {
+    opts.container.find( opts.slides ).each(function(i) {
         // convert anchors to template markup
         var markup, slide = $(this), url = slide.attr( 'href' );
         var fs = opts.youtubeAllowFullScreen ? 'true' : 'false';
         url += ( /\?/.test( url ) ? '&' : '?') + 'enablejsapi=1';
+        if ( opts.youtubeAutostart && opts.startingSlide === i )
+            url += '&autoplay=1';
         markup = opts.API.tmpl( template, { url: url, allowFullScreen: fs });
         slide.replaceWith( markup );
     });
