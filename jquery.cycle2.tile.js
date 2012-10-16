@@ -1,4 +1,4 @@
-/*! tile transition plugin for Cycle2;  version: BETA-20120910 */
+/*! tile transition plugin for Cycle2;  version: BETA-20121016 */
 (function ($) {
 "use strict";
 
@@ -15,7 +15,7 @@ $.fn.cycle.transitions.tileBlind = {
         opts.tileVertical = opts.tileVertical !== false;
 
         if (!opts.container.data('cycleTileInitialized')) {
-            opts.container.on('cycle-destroyed', this.onDestroy);
+            opts.container.on('cycle-destroyed', $.proxy(this.onDestroy, opts.API));
             opts.container.data('cycleTileInitialized', true);
         }
     },

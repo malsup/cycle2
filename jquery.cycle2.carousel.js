@@ -1,4 +1,4 @@
-/*! carousel transition plugin for Cycle2;  version: BETA-20120910 */
+/*! carousel transition plugin for Cycle2;  version: BETA-20121016 */
 (function($) {
 "use strict";
 
@@ -19,7 +19,7 @@ $.fn.cycle.transitions.carousel = {
     preInit: function( opts ) {
         opts.hideNonActive = false;
         
-        opts.container.on('cycle-destroyed', this.onDestroy);
+        opts.container.on('cycle-destroyed', $.proxy(this.onDestroy, opts.API));
         // override default API implementation
         opts.API.stopTransition = this.stopTransition;
     },
@@ -80,7 +80,7 @@ $.fn.cycle.transitions.carousel = {
         var visCount = opts.carouselVisible || opts.slides.length;
 
         if ( opts.carouselFluid && opts.carouselVisible ) {
-            if ( ! opts._carouselOnResize ) {
+            if ( ! opts._carouselResizeThrottle ) {
             // fluid container AND fluid slides; slides need to be resized to fit container
                 this.fluidSlides( opts );
             }
@@ -121,13 +121,15 @@ $.fn.cycle.transitions.carousel = {
         var prepareDimensions = this.prepareDimensions;
 
         // throttle resize event
-        $(window).on( 'resize', function() {
+        $(window).on( 'resize', resizeThrottle);
+
+        opts._carouselResizeThrottle = resizeThrottle;
+        onResize();
+
+        function resizeThrottle() {
             clearTimeout( timeout );
             timeout = setTimeout( onResize, 20 );
-        });
-
-        opts._carouselOnResize = onResize;
-        onResize();
+        }
 
         function onResize() {
             opts._carouselWrap.stop( false, true );
@@ -228,10 +230,10 @@ $.fn.cycle.transitions.carousel = {
     // core API supplement
     onDestroy: function( e ) {
         var opts = this.opts();
+        if ( opts._carouselResizeThrottle )
+            $( window ).off( 'resize', opts._carouselResizeThrottle );
         opts.slides.prependTo( opts.container );
         opts._carouselWrap.remove();
-        if ( opts._carouselOnResize )
-            $( window ).off( opts._carouselOnResize );
     }
 };
 
