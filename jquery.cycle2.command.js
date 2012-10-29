@@ -1,4 +1,4 @@
-/*! command plugin for Cycle2;  version: BETA-20121016 */
+/*! command plugin for Cycle2;  version: BETA-20121028 */
 (function($) {
 "use strict";
 
@@ -137,7 +137,7 @@ $.extend( c2.API, {
             }
             else {
                 slides.push( slide );
-                slide.data('cycle.opts').slideNum = slideNum;
+                $( slide ).data('cycle.opts').slideNum = slideNum;
                 slideNum++;
             }
         }

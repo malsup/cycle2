@@ -1,4 +1,4 @@
-/*! pager plugin for Cycle2;  version: BETA-20120910 */
+/*! pager plugin for Cycle2;  version: BETA-20121029 */
 (function($) {
 "use strict";
 
@@ -23,7 +23,7 @@ $(document).on( 'cycle-slide-added', function( e, opts, slideOpts, slideAdded ) 
 
 $(document).on( 'cycle-slide-removed', function( e, opts, index, slideRemoved ) {
     if ( opts.pager ) {
-        var pagers = opts.API.getComponent( opts, 'pager' );
+        var pagers = opts.API.getComponent( 'pager' );
         pagers.each(function() {
             var pager = $(this);
             $( pager.children()[index] ).remove();
