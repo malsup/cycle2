@@ -131,7 +131,7 @@ $.extend( c2.API, {
         var opts = this.opts();
         var slide, slideToRemove, slides = [], slideNum = 1;
         for ( var i=0; i < opts.slides.length; i++ ) {
-            slide = opts.slides[i];
+            slide = $(opts.slides[i]);
             if ( i == index ) {
                 slideToRemove = slide;
             }
