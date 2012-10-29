@@ -23,7 +23,7 @@ $(document).on( 'cycle-slide-added', function( e, opts, slideOpts, slideAdded ) 
 
 $(document).on( 'cycle-slide-removed', function( e, opts, index, slideRemoved ) {
     if ( opts.pager ) {
-        var pagers = opts.API.getComponent( opts, 'pager' );
+        var pagers = opts.API.getComponent( 'pager' );
         pagers.each(function() {
             var pager = $(this);
             $( pager.children()[index] ).remove();
