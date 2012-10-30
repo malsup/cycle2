@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: BETA-20120923
+ * jQuery Cycle2 - Version: BETA-20121030
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = 'BETA-20120923';
+var version = 'BETA-20121030';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -155,6 +155,7 @@ $.fn.cycle.API = {
         var opts = this.opts();
         var oldSlideCount = opts.slideCount;
         var startSlideshow = false;
+        var len;
 
         $( slides ).each(function(i) {
             var slideOpts;
@@ -186,11 +187,8 @@ $.fn.cycle.API = {
             if ( !opts._initialized )
                 opts.API.initSlideshow();
             else if ( opts.timeout ) {
-                opts.timeoutId = setTimeout(function() {
-                    var len = opts.slides.length;
-                    opts.nextSlide = opts.reverse ? len - 1 : 1;
-                    opts.API.prepareTx( false, !opts.reverse );
-                }, opts.timeout + opts.delay);
+                len = opts.slides.length;
+                opts.nextSlide = opts.reverse ? len - 1 : 1;
             }
         }
     },
