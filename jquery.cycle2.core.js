@@ -86,6 +86,11 @@ $.fn.cycle.API = {
         
         // add slides that already exist
         slides = slides.jquery ? slides : opts.container.find( slides );
+
+        if ( opts.random ) {
+            slides.sort(function() {return Math.random() - 0.5;});
+        }
+
         opts.API.add( slides );
     },
 
