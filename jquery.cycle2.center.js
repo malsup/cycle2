@@ -1,4 +1,4 @@
-/*! center plugin for Cycle2;  version: BETA-20120910 */
+/*! center plugin for Cycle2;  version: BETA-20121105 */
 (function($) {
 "use strict";
 
@@ -13,16 +13,27 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
 
     // throttle resize event
     var timeout, timeout2;
-    $(window).on( 'resize', function() {
-        clearTimeout( timeout );
-        timeout = setTimeout( adjustActive, 50 );
-    });
+
+    $(window).on( 'resize', resize );
+    
+    opts.container.on( 'cycle-destroyed', destroy );
 
     opts.container.on( 'cycle-slide-added', function( e, opts, slideOpts, slide ) {
         adjustSlide.apply(slide);
     });
 
     adjustAll();
+
+    function resize() {
+        clearTimeout( timeout );
+        timeout = setTimeout( adjustActive, 50 );
+    }
+
+    function destroy( e, opts ) {
+        clearTimeout( timeout );
+        clearTimeout( timeout2 );
+        $( window ).off( 'resize', resize );
+    }
 
     function adjustAll() {
         opts.slides.each( adjustSlide ); 
