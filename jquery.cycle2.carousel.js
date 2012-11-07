@@ -11,6 +11,16 @@ $( document ).on('cycle-bootstrap', function( e, opts, API ) {
         var i = slides.index( el );
         return i % slides.length;
     };
+
+    // override default 'next' function
+    API.next = function() {
+        var count = opts.reverse ? -1 : 1;
+        if ( opts.allowWrap === false && ( opts.currSlide + count ) > opts.slideCount - opts.carouselVisible )
+            return;
+        opts.API.advanceSlide( count );
+        opts.API.trigger('cycle-next', [ opts ]).log('cycle-next');
+    };
+
 });
 
 
