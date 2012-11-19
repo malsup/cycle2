@@ -15,9 +15,13 @@ $(document).on( 'cycle-update-view', function( e, opts, slideOpts, currSlide ) {
         var name = this; 
         var template = slideOpts[name+'Template'];
         var el = opts.API.getComponent( name );
-        if( el.length && template )
+        if( el.length && template ) {
             el.html( opts.API.tmpl( template, slideOpts, currSlide ) );
-        el[ el.length ? 'show' : 'hide' ]();
+            el.show();
+        }
+        else {
+            el.hide();
+        }
     });
 });
 
