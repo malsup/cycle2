@@ -1,4 +1,4 @@
-/*! caption plugin for Cycle2;  version: BETA-20120910 */
+/*! caption plugin for Cycle2;  version: BETA-20121119 */
 (function($) {
 "use strict";
 
@@ -12,11 +12,12 @@ $.extend($.fn.cycle.defaults, {
 $(document).on( 'cycle-update-view', function( e, opts, slideOpts, currSlide ) {
     var el;
     $.each(['caption','overlay'], function() {
-        var name = this, template = slideOpts[name+'Template'];
-        if( opts[name] && template ) {
-            el = opts.API.getComponent( name );
+        var name = this; 
+        var template = slideOpts[name+'Template'];
+        var el = opts.API.getComponent( name );
+        if( el.length && template )
             el.html( opts.API.tmpl( template, slideOpts, currSlide ) );
-        }
+        el[ el.length ? 'show' : 'hide' ]();
     });
 });
 
