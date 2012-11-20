@@ -32,6 +32,11 @@ $.fn.cycle.transitions.carousel = {
         opts.container.on('cycle-destroyed', $.proxy(this.onDestroy, opts.API));
         // override default API implementation
         opts.API.stopTransition = this.stopTransition;
+
+        // issue #10
+        for (var i=0; i < opts.startingSlide; i++) {
+            opts.container.append( opts.slides[0] );
+        }        
     },
 
     // transition API impl
