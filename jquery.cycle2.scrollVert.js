@@ -1,4 +1,4 @@
-// transition plugin for Cycle2;  http://malsup.com/jquery/cycle2/
+/*! scrollVert transition plugin for Cycle2;  version: 20121120 */
 (function($) {
 "use strict";
 

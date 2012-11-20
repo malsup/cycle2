@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: BETA-20121030
+ * jQuery Cycle2 - Version: 20121120
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = 'BETA-20121030';
+var version = '20121120';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
