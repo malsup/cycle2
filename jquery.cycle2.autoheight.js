@@ -1,24 +1,40 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: BETA-20120910 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: BETA-20121120 */
 (function($) {
 "use strict";
 
 $.extend($.fn.cycle.defaults, {
-    autoHeight: 0
+    autoHeight: 0 // setting this option to -1 disables autoHeight logic
 });    
 
 $(document).on( 'cycle-initialized', function( e, opts ) {
+    var autoHeight = opts.autoHeight;
+    var max = -1;
     var ratio;
-    if ( $.type( opts.autoHeight ) == 'number' && opts.autoHeight >= 0 ) {
-        // use existing slide
-        opts._sentinel = $( opts.slides[opts.autoHeight] ).clone().css({
+    if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
+        if ( autoHeight === 'calc' ) {
+            // calculate tallest slide index
+            opts.slides.each(function(i) {
+                var h = $(this).height();
+                if ( h > max ) {
+                    max = h;
+                    autoHeight = i;
+                }
+            });
+        }
+        else if ( autoHeight >= opts.slides.length ) {
+            autoHeight = 0;
+        }
+
+        // clone existing slide as sentinel
+        opts._sentinel = $( opts.slides[ autoHeight ] ).clone().removeAttr( 'id' ).css({
             position: 'static',
             visibility: 'hidden',
             display: 'block'
         }).prependTo( opts.container ).removeClass().addClass('cycle-sentinel cycle-slide');
     }
-    else if ( $.type( opts.autoHeight ) == 'string' && /\d+\:\d+/.test( opts.autoHeight ) ) { 
+    else if ( $.type( autoHeight ) == 'string' && /\d+\:\d+/.test( autoHeight ) ) { 
         // use ratio
-        ratio = opts.autoHeight.match(/(\d+)\:(\d+)/);
+        ratio = autoHeight.match(/(\d+)\:(\d+)/);
         ratio = ratio[1] / ratio[2];
         $(window).on( 'resize', onResize );
         opts._autoHeightOnResize = onResize;
