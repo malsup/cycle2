@@ -1,4 +1,4 @@
-/*! carousel transition plugin for Cycle2;  version: BETA-20121016 */
+/*! carousel transition plugin for Cycle2;  version: BETA-20121119 */
 (function($) {
 "use strict";
 
