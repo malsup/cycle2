@@ -1,4 +1,4 @@
-/*! center plugin for Cycle2;  version: 20121120 */
+/*! center plugin for Cycle2;  version: 20121121 */
 (function($) {
 "use strict";
 
@@ -22,7 +22,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
         adjustSlide.apply(slide);
     });
 
-    adjustAll();
+    adjustActive();
 
     function resize() {
         clearTimeout( timeout );
