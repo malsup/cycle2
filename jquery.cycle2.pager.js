@@ -1,4 +1,4 @@
-/*! pager plugin for Cycle2;  version: 20121120 */
+/*! pager plugin for Cycle2;  version: 20121125 */
 (function($) {
 "use strict";
 
@@ -57,7 +57,7 @@ function buildPagerLink( opts, slideOpts, slide ) {
     pagers.each(function() {
         var pager = $(this);
         if ( slideOpts.pagerTemplate ) {
-            var markup = opts.API.tmpl( slideOpts.pagerTemplate, slideOpts, slide[0] );
+            var markup = opts.API.tmpl( slideOpts.pagerTemplate, slideOpts, opts, slide[0] );
             pagerLink = $( markup ).appendTo( pager );
         }
         else {

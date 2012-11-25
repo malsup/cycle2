@@ -1,4 +1,4 @@
-/*! tmpl plugin for Cycle2;  version: 20121120 */
+/*! tmpl plugin for Cycle2;  version: 20121125 */
 (function($) {
 "use strict";
 
@@ -7,30 +7,31 @@ $.extend($.fn.cycle.defaults, {
 });
 
 $.extend($.fn.cycle.API, {
-    tmpl: function( str, opts, extra ) {
-        var regex = new RegExp( opts.tmplRegex, 'g' );
-        if (str && opts) {
-            return str.replace(regex, function(_, str) {
-                var i, prop, obj = opts, names = str.split('.');
+    tmpl: function( str, opts /*, ... */) {
+        var regex = new RegExp( opts.tmplRegex || $.fn.cycle.defaults.tmplRegex, 'g' );
+        var args = $.makeArray( arguments );
+        args.shift();
+        return str.replace(regex, function(_, str) {
+            var i, j, obj, prop, names = str.split('.');
+            for (i=0; i < args.length; i++) {
+                obj = args[i];
                 if (names.length > 1) {
-                   prop = opts;
-                   for (i=0; i < names.length; i++) {
-                      obj = prop;
-                      prop = prop[ names[i] ] || str;
-                   }
+                    prop = obj;
+                    for (j=0; j < names.length; j++) {
+                        obj = prop;
+                        prop = prop[ names[j] ] || str;
+                    }
                 } else {
-                    prop = opts[str];
+                    prop = obj[str];
                 }
 
                 if ($.isFunction(prop))
-                   return prop.call(obj, opts);
-                if (prop !== undefined && prop !== null)
+                    return prop.apply(obj, args);
+                if (prop !== undefined && prop !== null && prop != str)
                     return prop;
-                if (extra && extra[ str ] !== undefined)
-                    return extra[ str ];
-                return str;
-            });
-        }
+            }
+            return str;
+        });
     }
 });    
 
