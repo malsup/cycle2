@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20121120
+ * jQuery Cycle2 - Version: 20121125
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20121120';
+var version = '20121125';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -282,13 +282,20 @@ $.fn.cycle.API = {
             if ( tx.before )
                 tx.before( slideOpts, curr, next, fwd );
 
+            if ( opts.updateView === 0 && slideOpts.speed ) {
+                setTimeout ( function() {
+                    opts.API.updateView();
+                }, slideOpts.speed / 2);
+            }
+
             after = function() {
                 opts.busy = false;
                 if (tx.after)
                     tx.after( slideOpts, curr, next, fwd );
                 opts.API.trigger('cycle-after', [ slideOpts, curr, next, fwd ]);
                 opts.API.queueTransition( slideOpts);
-                opts.API.updateView();
+                if ( opts.updateView > 0 )
+                    opts.API.updateView();
             };
 
             opts.busy = true;
@@ -298,6 +305,9 @@ $.fn.cycle.API = {
                 opts.API.doTransition( slideOpts, curr, next, fwd, after);
 
             opts.API.calcNextSlide();
+
+            if ( opts.updateView < 0 )
+                opts.API.updateView();
         } else {
             opts.API.queueTransition( slideOpts );
         }
@@ -566,7 +576,8 @@ $.fn.cycle.defaults = {
     speed:            500,
     startingSlide:    0,
     sync:             true,
-    timeout:          4000
+    timeout:          4000,
+    updateView:       -1
 };
 
 // automatically find and run slideshows
