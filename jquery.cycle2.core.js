@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20121125.1
+ * jQuery Cycle2 - Version: 20121125.2
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20121125.1';
+var version = '20121125.2';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -147,7 +147,7 @@ $.fn.cycle.API = {
         }
 
         opts._initialized = true;
-        opts.API.updateView();
+        opts.API.updateView( true );
         opts.container.on('cycle-paused cycle-resumed', function(e) {
             opts.container[ e.type === 'cycle-paused' ? 'addClass' : 'removeClass' ]('cycle-paused');
         });
@@ -185,7 +185,7 @@ $.fn.cycle.API = {
             opts.API.trigger('cycle-slide-added', [ opts, slideOpts, slide ]);
         });
 
-        opts.API.updateView();
+        opts.API.updateView( true );
 
         startSlideshow = opts._preInitialized && (oldSlideCount < 2 && opts.slideCount >= 1);
         if ( startSlideshow ) {
@@ -282,20 +282,13 @@ $.fn.cycle.API = {
             if ( tx.before )
                 tx.before( slideOpts, curr, next, fwd );
 
-            if ( opts.updateView === 0 && slideOpts.speed ) {
-                setTimeout ( function() {
-                    opts.API.updateView();
-                }, slideOpts.speed / 2);
-            }
-
             after = function() {
                 opts.busy = false;
                 if (tx.after)
                     tx.after( slideOpts, curr, next, fwd );
                 opts.API.trigger('cycle-after', [ slideOpts, curr, next, fwd ]);
                 opts.API.queueTransition( slideOpts);
-                if ( opts.updateView > 0 )
-                    opts.API.updateView();
+                opts.API.updateView( true );
             };
 
             opts.busy = true;
@@ -433,7 +426,7 @@ $.fn.cycle.API = {
         slide.addClass( opts.slideClass );
     },
 
-    updateView: function() {
+    updateView: function( isAfter ) {
         var opts = this.opts();
         if ( !opts._initialized )
             return;
@@ -445,7 +438,7 @@ $.fn.cycle.API = {
                 .eq( opts.currSlide ).addClass( opts.slideActiveClass );
         }
 
-        if ( opts.hideNonActive )
+        if ( isAfter && opts.hideNonActive )
             opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).hide();
 
         opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide ]);
@@ -577,7 +570,7 @@ $.fn.cycle.defaults = {
     startingSlide:    0,
     sync:             true,
     timeout:          4000,
-    updateView:       1
+    updateView:       -1
 };
 
 // automatically find and run slideshows
