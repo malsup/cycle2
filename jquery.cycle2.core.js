@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20121125
+ * jQuery Cycle2 - Version: 20121125.1
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20121125';
+var version = '20121125.1';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -558,7 +558,7 @@ $.fn.cycle.transitions = {
 // @see: http://jquery.malsup.com/cycle2/api
 $.fn.cycle.defaults = {
     allowWrap:        true,
-    autoSelector:     '.cycle-slideshow',
+    autoSelector:     '.cycle-slideshow[data-cycle-auto-init!=false]',
     delay:            0,
     easing:           null,
     fx:              'fade',
@@ -577,7 +577,7 @@ $.fn.cycle.defaults = {
     startingSlide:    0,
     sync:             true,
     timeout:          4000,
-    updateView:       -1
+    updateView:       1
 };
 
 // automatically find and run slideshows
