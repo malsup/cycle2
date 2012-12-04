@@ -1,4 +1,4 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20121120 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20121204 */
 (function($) {
 "use strict";
 
@@ -9,7 +9,7 @@ $.extend($.fn.cycle.defaults, {
 $(document).on( 'cycle-initialized', function( e, opts ) {
     var autoHeight = opts.autoHeight;
     var max = -1;
-    var ratio;
+    var clone, ratio;
     if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
         if ( autoHeight === 'calc' ) {
             // calculate tallest slide index
@@ -26,11 +26,19 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         }
 
         // clone existing slide as sentinel
-        opts._sentinel = $( opts.slides[ autoHeight ] ).clone().removeAttr( 'id' ).css({
+        clone = $( opts.slides[ autoHeight ] ).clone();
+        
+        // #50; remove ids/names in cloned content
+        clone.removeAttr( 'id' ).find( '[id]' ).removeAttr( 'id' );
+        clone.removeAttr( 'name' ).find( '[name]' ).removeAttr( 'name' );
+
+        clone.css({
             position: 'static',
             visibility: 'hidden',
             display: 'block'
         }).prependTo( opts.container ).removeClass().addClass('cycle-sentinel cycle-slide');
+
+        opts._sentinel = clone;
     }
     else if ( $.type( autoHeight ) == 'string' && /\d+\:\d+/.test( autoHeight ) ) { 
         // use ratio
