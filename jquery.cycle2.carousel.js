@@ -1,4 +1,4 @@
-/*! carousel transition plugin for Cycle2;  version: 20121120 */
+/*! carousel transition plugin for Cycle2;  version: 20121206 */
 (function($) {
 "use strict";
 
@@ -162,6 +162,7 @@ $.fn.cycle.transitions.carousel = {
         var moveBy, props = {};
         var hops = opts.nextSlide - opts.currSlide;
         var vert = opts.carouselVertical;
+        var speed = opts.speed;
 
         // handle all the edge cases for wrapping & non-wrapping
         if ( opts.allowWrap === false ) {
@@ -203,7 +204,13 @@ $.fn.cycle.transitions.carousel = {
         }
 
         props[ vert ? 'top' : 'left' ] = fwd ? ( "-=" + moveBy ) : ( "+=" + moveBy );
-        opts._carouselWrap.animate( props, opts.speed, opts.easing, callback );
+
+        // throttleSpeed means to scroll slides at a constant rate, rather than
+        // a constant speed
+        if ( opts.throttleSpeed )
+            speed = (moveBy / $(opts.slides[0])[vert ? 'height' : 'width']() ) * opts.speed;
+
+        opts._carouselWrap.animate( props, speed, opts.easing, callback );
     },
 
     getDim: function( opts, index, vert ) {
