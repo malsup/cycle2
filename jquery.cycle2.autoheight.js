@@ -1,4 +1,4 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20121204 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20121213 */
 (function($) {
 "use strict";
 
@@ -37,6 +37,7 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
             visibility: 'hidden',
             display: 'block'
         }).prependTo( opts.container ).removeClass().addClass('cycle-sentinel cycle-slide');
+        clone.find( '*' ).css( 'visibility', 'hidden' );
 
         opts._sentinel = clone;
     }
