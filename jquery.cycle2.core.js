@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20121214
+ * jQuery Cycle2 - Version: 20121216
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20121214';
+var version = '20121216';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -49,7 +49,7 @@ $.fn.cycle = function( options ) {
         opts = $.extend( {}, $.fn.cycle.defaults, data, options || {});
 
         opts.timeoutId = 0;
-        opts.paused = 0;
+        opts.paused = opts.paused || false; // #57
         opts.container = container;
         opts._maxZ = opts.maxZ;
 
@@ -129,11 +129,11 @@ $.fn.cycle.API = {
 
             pauseObj.hover(
                 function(){ 
-                    opts.paused = 1; 
+                    opts.paused = true; 
                     opts.API.trigger('cycle-paused', [ opts ] );
                 }, 
                 function(){ 
-                    opts.paused = 0; 
+                    opts.paused = false; 
                     opts.API.trigger('cycle-resumed', [ opts ] );
                 }
             );
