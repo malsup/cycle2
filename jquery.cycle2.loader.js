@@ -1,4 +1,4 @@
-/*! loader plugin for Cycle2;  version: 20121120 */
+/*! loader plugin for Cycle2;  version: 20121217 */
 (function($) {
 "use strict";
 
@@ -21,10 +21,11 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
         slides = $( slides );
         var slideCount = slides.length;
 
-        slides.hide().each(function() {
+        slides.hide().appendTo('body').each(function(i) { // appendTo fixes #56
             var count = 0;
             var slide = $(this);
             var images = slide.is('img') ? slide : slide.find('img');
+            slide.data('index', i);
             images = images.filter(':not(.cycle-loader-ignore)'); // allow some images to be marked as unimportant
             if ( ! images.length ) {
                 --slideCount;
@@ -70,6 +71,8 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
             if ( opts.loader == 'wait' ) {
                 slideArr.push( slide );
                 if ( slideCount === 0 ) {
+                    // #59; sort slides into original markup order
+                    slideArr.sort( sorter );
                     addFn.apply( opts.API, [ slideArr, prepend ] );
                     opts.container.removeClass('cycle-loading');
                 }
@@ -80,6 +83,10 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
                 curr.show();
                 opts.container.removeClass('cycle-loading');
             }
+        }
+
+        function sorter(a, b) {
+            return a.data('index') > b.data('index');
         }
     }
 });
