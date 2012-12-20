@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20121216
+ * jQuery Cycle2 - Version: 20121219
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20121216';
+var version = '20121219';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -129,12 +129,14 @@ $.fn.cycle.API = {
 
             pauseObj.hover(
                 function(){ 
-                    opts.paused = true; 
-                    opts.API.trigger('cycle-paused', [ opts ] );
+                    opts.hoverPaused = true; 
+                    if ( ! opts.paused )
+                        opts.API.trigger('cycle-paused', [ opts ] );
                 }, 
                 function(){ 
-                    opts.paused = false; 
-                    opts.API.trigger('cycle-resumed', [ opts ] );
+                    opts.hoverPaused = false; 
+                    if ( ! opts.paused )
+                        opts.API.trigger('cycle-resumed', [ opts ] );
                 }
             );
         }
@@ -277,7 +279,13 @@ $.fn.cycle.API = {
         if ( manual && slideOpts.manualSpeed !== undefined )
             slideOpts.speed = slideOpts.manualSpeed;
 
-        if ( opts.nextSlide != opts.currSlide && (manual || (!opts.paused && opts.timeout) )) {
+        // ensure that:
+        //      1. advancing to a different slide
+        //      2. this is either a manual event (prev/next, pager, cmd) or 
+        //              a timer event and slideshow is not paused
+        if ( opts.nextSlide != opts.currSlide && 
+            (manual || (!opts.paused && !opts.hoverPaused && opts.timeout) )) { // #62
+
             opts.API.trigger('cycle-before', [ slideOpts, curr, next, fwd ]);
             if ( tx.before )
                 tx.before( slideOpts, curr, next, fwd );
