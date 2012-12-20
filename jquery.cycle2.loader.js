@@ -1,4 +1,4 @@
-/*! loader plugin for Cycle2;  version: 20121217 */
+/*! loader plugin for Cycle2;  version: 20121219 */
 (function($) {
 "use strict";
 
@@ -86,7 +86,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
         }
 
         function sorter(a, b) {
-            return a.data('index') > b.data('index');
+            return a.data('index') - b.data('index');
         }
     }
 });
