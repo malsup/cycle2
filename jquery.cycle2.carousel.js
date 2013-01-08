@@ -236,7 +236,7 @@ $.fn.cycle.transitions.carousel = {
         // returns callback fn that resets the left/top wrap position to the "real" slides
         return function() {
             var pos = $(opts.slides[opts.nextSlide]).position();
-            var offset = 0 - pos[vert?'top':'left'] - (opts.carouselOffset || 0);
+            var offset = 0 - pos[vert?'top':'left'] + (opts.carouselOffset || 0);
             opts._carouselWrap.css( opts.carouselVertical ? 'top' : 'left', offset );
             callback();
         };
