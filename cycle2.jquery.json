@@ -25,6 +25,7 @@
   "bugs": "https://github.com/malsup/cycle2/issues",
   "homepage": "http://jquery.malsup.com/cycle2/",
   "docs": "http://jquery.malsup.com/cycle2/",
+  "download": "http://malsup.github.com/min/jquery.cycle2.min.js",
   "dependencies": {
     "jquery": ">=1.7"
   }
