@@ -1,4 +1,4 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20121213 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130123 */
 (function($) {
 "use strict";
 
@@ -28,9 +28,8 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         // clone existing slide as sentinel
         clone = $( opts.slides[ autoHeight ] ).clone();
         
-        // #50; remove ids/names in cloned content
-        clone.removeAttr( 'id' ).find( '[id]' ).removeAttr( 'id' );
-        clone.removeAttr( 'name' ).find( '[name]' ).removeAttr( 'name' );
+        // #50; remove special attributes from cloned content
+        clone.removeAttr( 'id name rel' ).find( '[id],[name],[rel]' ).removeAttr( 'id name rel' );
 
         clone.css({
             position: 'static',
