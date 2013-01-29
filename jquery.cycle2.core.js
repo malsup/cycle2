@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20121219
+ * jQuery Cycle2 - Version: 20130129
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,14 +7,14 @@
 ;(function($) {
 "use strict";
 
-var version = '20121219';
+var version = '20130129';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
     var o;
     if ( this.length === 0 && !$.isReady ) {
         o = { s: this.selector, c: this.context };
-        log('requeuing slideshow (dom not ready)');
+        $.fn.cycle.log('requeuing slideshow (dom not ready)');
         $(function() {
             $( o.s, o.c ).cycle(options);
         });
@@ -24,6 +24,7 @@ $.fn.cycle = function( options ) {
     return this.each(function() {
         var data, opts, shortName, val;
         var container = $(this);
+        var log = $.fn.cycle.log;
 
         if ( container.data('cycle.opts') )
             return; // already initialized
@@ -245,7 +246,7 @@ $.fn.cycle.API = {
 
         if (!tx) {
             tx = $.fn.cycle.transitions.fade;
-            log('Transition "' + opts.fx + '" not found.  Using fade.');
+            opts.API.log('Transition "' + opts.fx + '" not found.  Using fade.');
         }
         return tx;
     },
@@ -388,7 +389,7 @@ $.fn.cycle.API = {
             if (slideOpts.hasOwnProperty(p) && /^cycle[A-Z]+/.test(p) ) {
                 val = slideOpts[p];
                 shortName = p.match(/^cycle(.*)/)[1].replace(/^[A-Z]/, lowerCase);
-                log('['+(opts.slideCount-1)+']', shortName+':', val, '('+typeof val +')');
+                opts.API.log('['+(opts.slideCount-1)+']', shortName+':', val, '('+typeof val +')');
                 slideOpts[shortName] = val;
             }
         }
@@ -502,17 +503,17 @@ $.fn.cycle.API = {
 
 }; // API
 
-// expose default logger
-$.fn.cycle.log = log;
+// default logger
+$.fn.cycle.log = function log() {
+    /*global console:true */
+    if (window.console && console.log)
+        console.log('[cycle2] ' + Array.prototype.join.call(arguments, ' ') );
+};
 
 $.fn.cycle.version = function() { return 'Cycle2: ' + version; };
 
 // helper functions
-function log() {
-    /*global console:true */
-    if (window.console && console.log)
-        console.log('[cycle2] ' + Array.prototype.join.call(arguments, ' ') );
-}
+
 function lowerCase(s) {
     return (s || '').toLowerCase();
 }
