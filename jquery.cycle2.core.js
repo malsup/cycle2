@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130129
+ * jQuery Cycle2 - Version: 20130201
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20130129';
+var version = '20130201';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -197,6 +197,9 @@ $.fn.cycle.API = {
             else if ( opts.timeout ) {
                 len = opts.slides.length;
                 opts.nextSlide = opts.reverse ? len - 1 : 1;
+                if ( !opts.timeoutId ) {
+                    opts.API.queueTransition( opts );
+                }
             }
         }
     },
