@@ -1,4 +1,4 @@
-/*! command plugin for Cycle2;  version: 20121120 */
+/*! command plugin for Cycle2;  version: 20130202 */
 (function($) {
 "use strict";
 
@@ -72,6 +72,13 @@ $.extend( c2.API, {
         opts.API.stop();
         opts.API.trigger( 'cycle-destroyed', [ opts ] ).log('cycle-destroyed');
         opts.container.removeData( 'cycle.opts' );
+
+        // #75; remove inline styles
+        if ( ! opts.retainStylesOnDestroy ) {
+            opts.container.removeAttr( 'style' );
+            opts.slides.removeAttr( 'style' );
+            opts.slides.removeClass( 'cycle-slide-active' );
+        }
     },
 
     jump: function( index ) {
