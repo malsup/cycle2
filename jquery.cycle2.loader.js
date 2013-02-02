@@ -18,6 +18,8 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
     function add( slides, prepend ) {
         var slideArr = [];
+        if ( typeof slides == 'string' )
+            slides = $.trim( slides );
         slides = $( slides );
         var slideCount = slides.length;
 
