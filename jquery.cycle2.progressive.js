@@ -23,18 +23,6 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     else if ($.isFunction( opts.progressive ) ) {
         slides = opts.progressive( opts );
     }
-    // else if ( type == 'string' ) {
-    //     slides = $( opts.progressive ).html();
-    //     if ( ! $.trim( slides ) )
-    //         return;
-    //     try {
-    //         slides = $.parseJSON( slides );
-    //     }
-    //     catch(err) {
-    //         API.log( 'error parsing progressive slides', err );
-    //         return;
-    //     }
-    // }
     else if ( type == 'string' ) {
         scriptEl = $( opts.progressive );
         slides = $.trim( scriptEl.html() );
