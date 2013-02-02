@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130201
+ * jQuery Cycle2 - Version: 20130202
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20130201';
+var version = '20130202';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -296,6 +296,10 @@ $.fn.cycle.API = {
 
             after = function() {
                 opts.busy = false;
+                // #76; bail if slideshow has been destroyed
+                if (! opts.container.data( 'cycle.opts' ) )
+                    return;
+
                 if (tx.after)
                     tx.after( slideOpts, curr, next, fwd );
                 opts.API.trigger('cycle-after', [ slideOpts, curr, next, fwd ]);
