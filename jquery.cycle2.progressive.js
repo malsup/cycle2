@@ -1,4 +1,4 @@
-/*! progressive loader plugin for Cycle2;  version: 20121120 */
+/*! progressive loader plugin for Cycle2;  version: 20130202 */
 (function($) {
 "use strict";
 
@@ -14,8 +14,8 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     var nextFn = API.next;
     var prevFn = API.prev;
     var prepareTxFn = API.prepareTx;
-    var slides;
     var type = $.type( opts.progressive );
+    var slides, scriptEl;
 
     if ( type == 'array' ) {
         slides = opts.progressive;
@@ -23,18 +23,40 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     else if ($.isFunction( opts.progressive ) ) {
         slides = opts.progressive( opts );
     }
+    // else if ( type == 'string' ) {
+    //     slides = $( opts.progressive ).html();
+    //     if ( ! $.trim( slides ) )
+    //         return;
+    //     try {
+    //         slides = $.parseJSON( slides );
+    //     }
+    //     catch(err) {
+    //         API.log( 'error parsing progressive slides', err );
+    //         return;
+    //     }
+    // }
     else if ( type == 'string' ) {
-        slides = $( opts.progressive ).html();
-        if ( ! $.trim( slides ) )
+        scriptEl = $( opts.progressive );
+        slides = $.trim( scriptEl.html() );
+        if ( !slides )
             return;
-        try {
-            slides = $.parseJSON( slides );
+        // is it json array?
+        if ( /^(\[)/.test( slides ) ) {
+            try {
+                slides = $.parseJSON( slides );
+            }
+            catch(err) {
+                API.log( 'error parsing progressive slides', err );
+                return;
+            }
         }
-        catch(err) {
-            API.log( 'error parsing progressive slides', err );
-            return;
+        else {
+            // plain text, split on delimeter
+            slides = slides.split( new RegExp( scriptEl.data('cycle-split') || '\n') );
         }
     }
+
+
 
     if ( prepareTxFn ) {
         API.prepareTx = function( manual, fwd ) {
