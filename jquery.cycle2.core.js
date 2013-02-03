@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130202
+ * jQuery Cycle2 - Version: 20130203
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20130202';
+var version = '20130203';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -262,7 +262,7 @@ $.fn.cycle.API = {
             opts.timeoutId = 0;
             return;
         }
-        if ( manual ) {
+        if ( manual && ( !opts.busy || opts.manualTrump ) ) {
             opts.API.stopTransition();
             opts.busy = false;
             clearTimeout(opts.timeoutId);
@@ -575,6 +575,7 @@ $.fn.cycle.defaults = {
     loop:             0,
     manualFx:         undefined,
     manualSpeed:      undefined,
+    manualTrump:      false,
     maxZ:             100,
     pauseOnHover:     false,
     reverse:          false,

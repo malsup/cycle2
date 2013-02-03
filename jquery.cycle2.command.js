@@ -1,4 +1,4 @@
-/*! command plugin for Cycle2;  version: 20130202 */
+/*! command plugin for Cycle2;  version: 20130203 */
 (function($) {
 "use strict";
 
@@ -47,6 +47,9 @@ $.extend( $.fn.cycle, c2 );
 $.extend( c2.API, {
     next: function() {
         var opts = this.opts();
+        if ( opts.busy && ! opts.manualTrump )
+            return;
+        
         var count = opts.reverse ? -1 : 1;
         if ( opts.allowWrap === false && ( opts.currSlide + count ) >= opts.slideCount )
             return;
@@ -57,6 +60,8 @@ $.extend( c2.API, {
 
     prev: function() {
         var opts = this.opts();
+        if ( opts.busy && ! opts.manualTrump )
+            return;
         var count = opts.reverse ? 1 : -1;
         if ( opts.allowWrap === false && ( opts.currSlide + count ) < 0 )
             return;
@@ -85,6 +90,8 @@ $.extend( c2.API, {
         // go to the requested slide
         var fwd;
         var opts = this.opts();
+        if ( opts.busy && ! opts.manualTrump )
+            return;
         var num = parseInt( index, 10 );
         if (isNaN(num) || num < 0 || num >= opts.slides.length) {
             opts.API.log('goto: invalid slide index: ' + num);

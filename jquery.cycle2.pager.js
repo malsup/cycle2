@@ -1,4 +1,4 @@
-/*! pager plugin for Cycle2;  version: 20121125 */
+/*! pager plugin for Cycle2;  version: 20130203 */
 (function($) {
 "use strict";
 
@@ -73,6 +73,9 @@ function buildPagerLink( opts, slideOpts, slide ) {
 function page( pager, target ) {
     /*jshint validthis:true */
     var opts = this.opts();
+    if ( opts.busy && ! opts.manualTrump )
+        return;
+
     var index = pager.children().index( target );
     var nextSlide = index;
     var fwd = opts.currSlide < nextSlide;
