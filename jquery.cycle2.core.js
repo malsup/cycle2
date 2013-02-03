@@ -575,7 +575,7 @@ $.fn.cycle.defaults = {
     loop:             0,
     manualFx:         undefined,
     manualSpeed:      undefined,
-    manualTrump:      false,
+    manualTrump:      true,
     maxZ:             100,
     pauseOnHover:     false,
     reverse:          false,
