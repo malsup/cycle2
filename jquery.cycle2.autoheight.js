@@ -10,6 +10,7 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
     var autoHeight = opts.autoHeight;
     var max = -1;
     var clone, ratio;
+    var auto_slide;
     if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
         if ( autoHeight === 'calc' ) {
             // calculate tallest slide index
@@ -26,7 +27,8 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         }
 
         // clone existing slide as sentinel
-        clone = $( opts.slides[ autoHeight ] ).clone();
+        auto_slide = $( opts.slides[ autoHeight ] );        
+        clone = auto_slide.clone();
         
         // #50; remove special attributes from cloned content
         clone.removeAttr( 'id name rel' ).find( '[id],[name],[rel]' ).removeAttr( 'id name rel' );
@@ -37,6 +39,8 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
             display: 'block'
         }).prependTo( opts.container ).removeClass().addClass('cycle-sentinel cycle-slide');
         clone.find( '*' ).css( 'visibility', 'hidden' );
+
+        clone.height(auto_slide.height());
 
         opts._sentinel = clone;
     }
