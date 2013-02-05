@@ -1,4 +1,4 @@
-/*! progressive loader plugin for Cycle2;  version: 20130202 */
+/*! progressive loader plugin for Cycle2;  version: 20130205 */
 (function($) {
 "use strict";
 
@@ -59,10 +59,10 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
                 slide = slides[ 0 ];
                 slides = slides.slice( 1 );
                 opts.container.one('cycle-slide-added', function(e, opts ) {
-                    opts.API.advanceSlide( 1 );
-                    // opts.container.removeClass('cycle-loading');
+                    setTimeout(function() {
+                        opts.API.advanceSlide( 1 );
+                    },50);
                 });
-                // opts.container.addClass('cycle-loading');
                 opts.API.add( slide );
             }
             else if ( !fwd && opts.currSlide === 0 ) {
@@ -70,11 +70,11 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
                 slide = slides[ index ];
                 slides = slides.slice( 0, index );
                 opts.container.one('cycle-slide-added', function(e, opts ) {
-                    opts.currSlide = 1;
-                    opts.API.advanceSlide( -1 );
-                    // opts.container.removeClass('cycle-loading');
+                    setTimeout(function() {
+                        opts.currSlide = 1;
+                        opts.API.advanceSlide( -1 );
+                    },50);
                 });
-                // opts.container.addClass('cycle-loading');
                 opts.API.add( slide, true );
             }
             else {
