@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130205
+ * jQuery Cycle2 - Version: 20130306
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20130205';
+var version = '20130306';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -317,9 +317,7 @@ $.fn.cycle.API = {
                 opts.API.doTransition( slideOpts, curr, next, fwd, after);
 
             opts.API.calcNextSlide();
-
-            if ( opts.updateView < 0 )
-                opts.API.updateView();
+            opts.API.updateView();
         } else {
             opts.API.queueTransition( slideOpts );
         }
@@ -452,6 +450,12 @@ $.fn.cycle.API = {
         var slideOpts = opts.API.getSlideOpts();
         var currSlide = opts.slides[ opts.currSlide ];
 
+        if ( ! isAfter ) {
+            opts.API.trigger('cycle-update-view-before', [ opts, slideOpts, currSlide ]);
+            if ( opts.updateView < 0 )
+                return;
+        }
+
         if ( opts.slideActiveClass ) {
             opts.slides.removeClass( opts.slideActiveClass )
                 .eq( opts.currSlide ).addClass( opts.slideActiveClass );
@@ -460,7 +464,8 @@ $.fn.cycle.API = {
         if ( isAfter && opts.hideNonActive )
             opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).hide();
 
-        opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide ]);
+        opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
+        opts.API.trigger('cycle-update-view-after', [ opts, slideOpts, currSlide ]);
     },
 
     getComponent: function( name ) {

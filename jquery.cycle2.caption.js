@@ -1,4 +1,4 @@
-/*! caption plugin for Cycle2;  version: 20121125 */
+/*! caption plugin for Cycle2;  version: 20130306 */
 (function($) {
 "use strict";
 
@@ -6,10 +6,13 @@ $.extend($.fn.cycle.defaults, {
     caption:          '> .cycle-caption',
     captionTemplate:  '{{slideNum}} / {{slideCount}}',
     overlay:          '> .cycle-overlay',
-    overlayTemplate:  '<div>{{title}}</div><div>{{desc}}</div>'
+    overlayTemplate:  '<div>{{title}}</div><div>{{desc}}</div>',
+    captionModule:    'caption'
 });    
 
 $(document).on( 'cycle-update-view', function( e, opts, slideOpts, currSlide ) {
+    if ( opts.captionModule !== 'caption' )
+        return;
     var el;
     $.each(['caption','overlay'], function() {
         var name = this; 
