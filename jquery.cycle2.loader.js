@@ -18,17 +18,26 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
     function add( slides, prepend ) {
         var slideArr = [];
-        if ( typeof slides == 'string' )
+        if ( $.type( slides ) == 'string' )
             slides = $.trim( slides );
+        else if ( $.type( slides) === 'array' ) {
+            for (var i=0; i < slides.length; i++ )
+                slides[i] = $(slides[i])[0];
+        }
+
         slides = $( slides );
         var slideCount = slides.length;
+
+        if ( ! slideCount )
+            return;
 
         slides.hide().appendTo('body').each(function(i) { // appendTo fixes #56
             var count = 0;
             var slide = $(this);
             var images = slide.is('img') ? slide : slide.find('img');
             slide.data('index', i);
-            images = images.filter(':not(.cycle-loader-ignore)'); // allow some images to be marked as unimportant
+            // allow some images to be marked as unimportant (and filter out images w/o src value)
+            images = images.filter(':not(.cycle-loader-ignore)').filter(':not([src=""])');
             if ( ! images.length ) {
                 --slideCount;
                 slideArr.push( slide );
