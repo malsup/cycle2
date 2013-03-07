@@ -1,4 +1,4 @@
-/*! loader plugin for Cycle2;  version: 20121219 */
+/*! loader plugin for Cycle2;  version: 20130307 */
 (function($) {
 "use strict";
 
