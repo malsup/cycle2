@@ -1,4 +1,4 @@
-/*! prevnext plugin for Cycle2;  version: 20121120 */
+/*! prevnext plugin for Cycle2;  version: 20130307 */
 (function($) {
 "use strict";
 
@@ -12,12 +12,12 @@ $.extend($.fn.cycle.defaults, {
 });    
 
 $(document).on( 'cycle-initialized', function( e, opts ) {
-    opts.API.getComponent( 'next' ).off( opts.nextEvent ).on( opts.nextEvent, function(e) {
+    opts.API.getComponent( 'next' ).on( opts.nextEvent, function(e) {
         e.preventDefault();
         opts.API.next();
     });
 
-    opts.API.getComponent( 'prev' ).off( opts.prevEvent ).on( opts.prevEvent, function(e) {
+    opts.API.getComponent( 'prev' ).on( opts.prevEvent, function(e) {
         e.preventDefault();
         opts.API.prev();
     });
@@ -57,8 +57,8 @@ $(document).on( 'cycle-update-view', function( e, opts, slideOpts, currSlide ) {
 
 
 $(document).on( 'cycle-destroyed', function( e, opts ) {
-    $( opts.next ).off( opts.nextEvent );
-    $( opts.prev ).off( opts.prevEvent );
+    opts.API.getComponent( 'prev' ).off( opts.nextEvent );
+    opts.API.getComponent( 'next' ).off( opts.prevEvent );
     opts.container.off( 'swipeleft.cycle swiperight.cycle swipeLeft.cycle swipeRight.cycle swipeUp.cycle swipeDown.cycle' );
 });
 
