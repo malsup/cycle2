@@ -1,4 +1,4 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130123 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130309 */
 (function($) {
 "use strict";
 
@@ -6,20 +6,21 @@ $.extend($.fn.cycle.defaults, {
     autoHeight: 0 // setting this option to -1 disables autoHeight logic
 });    
 
-$(document).on( 'cycle-initialized', function( e, opts ) {
+$(document).on( 'cycle-initialized cycle-slide-added cycle-slide-removed', initAutoHeight);
+$(document).on( 'cycle-destroyed', cleanup);
+
+function initAutoHeight(e, opts) {
     var autoHeight = opts.autoHeight;
-    var max = -1;
-    var clone, ratio;
+    var clone, ratio, timeout;
+
+    cleanup( e, opts );
+
+    $(window).on( 'resize orientationchange', onResize );
+    opts._autoHeightOnResize = onResize;
+
     if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
         if ( autoHeight === 'calc' ) {
-            // calculate tallest slide index
-            opts.slides.each(function(i) {
-                var h = $(this).height();
-                if ( h > max ) {
-                    max = h;
-                    autoHeight = i;
-                }
-            });
+            autoHeight = calcSentinelIndex( opts );
         }
         else if ( autoHeight >= opts.slides.length ) {
             autoHeight = 0;
@@ -44,23 +45,48 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         // use ratio
         ratio = autoHeight.match(/(\d+)\:(\d+)/);
         ratio = ratio[1] / ratio[2];
-        $(window).on( 'resize', onResize );
-        opts._autoHeightOnResize = onResize;
+        opts._autoHeightRatio = ratio;
         setTimeout(function() {
             $(window).triggerHandler('resize');
         },15);
     }
 
     function onResize() {
-        opts.container.height( opts.container.width() / ratio );
+        if ( opts._autoHeightRatio ) {
+            opts.container.height( opts.container.width() / ratio );
+        }
+        else {
+            clearTimeout( timeout );
+            timeout = setTimeout(function() {
+                initAutoHeight(e, opts);
+            }, 50);
+        }
     }
-});
+}    
 
-$(document).on( 'cycle-destroyed', function( e, opts ) {
-    if ( opts._sentinel )
+function cleanup( e, opts ) {
+    if ( opts._sentinel ) {
         opts._sentinel.remove();
-    if ( opts._autoHeightOnResize )
-        $(window).off( 'resize', opts._autoHeightOnResize );
-});
+        opts._sentinel = null;
+    }
+    if ( opts._autoHeightOnResize ) {
+        $(window).off( 'resize orientationchange', opts._autoHeightOnResize );
+        opts._autoHeightOnResize = null;
+    }
+}
+
+function calcSentinelIndex( opts ) {
+    var index = 0, max = -1;
+
+    // calculate tallest slide index
+    opts.slides.each(function(i) {
+        var h = $(this).height();
+        if ( h > max ) {
+            max = h;
+            index = i;
+        }
+    });
+    return index;
+}
 
 })(jQuery);
