@@ -2,12 +2,7 @@
 (function($) {
 "use strict";
 
-var template = '<div><object width="640" height="360">' +
-    '<param name="movie" value="{{url}}"></param>' +
-    '<param name="allowFullScreen" value="{{allowFullScreen}}"></param>' +
-    '<param name="allowscriptaccess" value="always"></param>' +
-    '<embed src="{{url}}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="{{allowFullScreen}}"></embed>' +
-'</object></div>';
+var template = '<div><iframe width="640" height="360" src="{{url}}" frameborder="0" allowscriptaccess="always" allowfullscreen="{{allowFullScreen}}"></iframe></div>';
 
 $.extend($.fn.cycle.defaults, {
     youtubeAllowFullScreen: true,
@@ -25,6 +20,8 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
     opts.container.find( opts.slides ).each(function(i) {
         // convert anchors to template markup
         var markup, slide = $(this), url = slide.attr( 'href' );
+        // convert various youtube URL formats to embed format
+        url = convertURL(url);
         var fs = opts.youtubeAllowFullScreen ? 'true' : 'false';
         url += ( /\?/.test( url ) ? '&' : '?') + 'enablejsapi=1';
         if ( opts.youtubeAutostart && opts.startingSlide === i )
@@ -61,6 +58,15 @@ function pause() {
         this.pauseVideo();
     }
     catch( ignore ) {}
+}
+function convertURL(url) {
+    // this regex needs to stay up-to-date
+    var pattern = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+    var videoID = url.match(pattern);
+    // if video ID successfully extracted, change the URL format
+    if(videoID[1])
+        url = 'http://www.youtube.com/embed/'+videoID[1];
+    return url;
 }
 
 })(jQuery);
