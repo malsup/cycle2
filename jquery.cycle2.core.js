@@ -143,9 +143,6 @@ $.fn.cycle.API = {
 
         opts._initialized = true;
         opts.API.updateView( true );
-        opts.container.on('cycle-paused cycle-resumed', function(e) {
-            opts.container[ e.type === 'cycle-paused' ? 'addClass' : 'removeClass' ]('cycle-paused');
-        });
         opts.API.trigger('cycle-initialized', [ opts ]);
         opts.API.postInitSlideshow();
     },
@@ -162,6 +159,7 @@ $.fn.cycle.API = {
             opts.paused = true;
 
         if ( ! alreadyPaused ) {
+            opts.container.addClass('cycle-paused');
             opts.API.trigger('cycle-paused', [ opts ]).log('cycle-paused');
 
             if ( slideOpts.timeout ) {
@@ -188,6 +186,7 @@ $.fn.cycle.API = {
             opts.paused = false;
 
         if ( ! alreadyResumed ) {
+            opts.container.removeClass('cycle-paused');
             opts.API.queueTransition( opts.API.getSlideOpts(), opts._remainingTimeout );
             opts.API.trigger('cycle-resumed', [ opts, opts._remainingTimeout ] ).log('cycle-resumed');
         }
