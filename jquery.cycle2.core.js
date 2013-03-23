@@ -167,7 +167,7 @@ $.fn.cycle.API = {
                 opts.timeoutId = 0;
                 
                 // determine how much time is left for the current slide
-                currTime = Date.now() || (new Date()).getTime();
+                currTime = $.now();
                 opts._remainingTimeout -= ( currTime - opts._lastQueue );
                 if ( opts._remainingTimeout < 0 )
                     opts._remainingTimeout = undefined;
@@ -399,7 +399,7 @@ $.fn.cycle.API = {
             return;
         }
         if ( timeout ) {
-            opts._lastQueue = Date.now() || (new Date()).getTime();
+            opts._lastQueue = $.now();
             if ( specificTimeout === undefined )
                 opts._remainingTimeout = slideOpts.timeout;
 
