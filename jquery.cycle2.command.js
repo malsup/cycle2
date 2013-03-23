@@ -1,4 +1,4 @@
-/*! command plugin for Cycle2;  version: 20130203 */
+/*! command plugin for Cycle2;  version: 20130323 */
 (function($) {
 "use strict";
 
@@ -121,18 +121,6 @@ $.extend( c2.API, {
             pauseObj.off('mouseenter mouseleave');
         }
         opts.API.trigger('cycle-stopped', [ opts ]).log('cycle-stopped');
-    },
-
-    pause: function() {
-        var opts = this.opts();
-        opts.paused = true;
-        opts.API.trigger('cycle-paused', [ opts ]).log('cycle-paused');
-    },
-
-    resume: function() {
-        var opts = this.opts();
-        opts.paused = false;
-        opts.API.trigger('cycle-resumed', [ opts ]).log('cycle-resumed');
     },
 
     reinit: function() {

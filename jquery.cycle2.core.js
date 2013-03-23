@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130307
+ * jQuery Cycle2 - Version: 20130323
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20130307';
+var version = '20130323';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -130,16 +130,8 @@ $.fn.cycle.API = {
                 pauseObj = $( opts.pauseOnHover );
 
             pauseObj.hover(
-                function(){ 
-                    opts.hoverPaused = true; 
-                    if ( ! opts.paused )
-                        opts.API.trigger('cycle-paused', [ opts ] );
-                }, 
-                function(){ 
-                    opts.hoverPaused = false; 
-                    if ( ! opts.paused )
-                        opts.API.trigger('cycle-resumed', [ opts ] );
-                }
+                function(){ opts.API.pause( true ); }, 
+                function(){ opts.API.resume( true ); }
             );
         }
 
@@ -158,6 +150,48 @@ $.fn.cycle.API = {
         opts.API.postInitSlideshow();
     },
 
+    pause: function( hover ) {
+        var opts = this.opts(),
+            slideOpts = opts.API.getSlideOpts(),
+            alreadyPaused = opts.hoverPaused || opts.paused,
+            currTime;
+
+        if ( hover )
+            opts.hoverPaused = true; 
+        else
+            opts.paused = true;
+
+        if ( ! alreadyPaused ) {
+            opts.API.trigger('cycle-paused', [ opts ]).log('cycle-paused');
+
+            if ( slideOpts.timeout ) {
+                clearTimeout( opts.timeoutId );
+                opts.timeoutId = 0;
+                
+                // determine how much time is left for the current slide
+                currTime = Date.now() || (new Date()).getTime();
+                opts._remainingTimeout -= ( currTime - opts._lastQueue );
+                if ( opts._remainingTimeout < 0 )
+                    opts._remainingTimeout = undefined;
+            }
+        }
+    },
+
+    resume: function( hover ) {
+        var opts = this.opts(),
+            alreadyResumed = !opts.hoverPaused && !opts.paused,
+            remaining;
+
+        if ( hover )
+            opts.hoverPaused = false; 
+        else
+            opts.paused = false;
+
+        if ( ! alreadyResumed ) {
+            opts.API.queueTransition( opts.API.getSlideOpts(), opts._remainingTimeout );
+            opts.API.trigger('cycle-resumed', [ opts, opts._remainingTimeout ] ).log('cycle-resumed');
+        }
+    },
 
     add: function( slides, prepend ) {
         var opts = this.opts();
@@ -347,15 +381,16 @@ $.fn.cycle.API = {
         }
     },
 
-    queueTransition: function( slideOpts ) {
+    queueTransition: function( slideOpts, specificTimeout ) {
         var opts = this.opts();
+        var timeout = specificTimeout !== undefined ? specificTimeout : slideOpts.timeout;
         if (opts.nextSlide === 0 && --opts.loop === 0) {
             opts.API.log('terminating; loop=0');
             opts.timeout = 0;
-            if (slideOpts.timeout) {
+            if ( timeout ) {
                 setTimeout(function() {
                     opts.API.trigger('cycle-finished', [ opts ]);
-                }, slideOpts.timeout);
+                }, timeout);
             }
             else {
                 opts.API.trigger('cycle-finished', [ opts ]);
@@ -364,10 +399,16 @@ $.fn.cycle.API = {
             opts.nextSlide = opts.currSlide;
             return;
         }
-        if (slideOpts.timeout) {
-            opts.timeoutId = setTimeout(function() { 
-                opts.API.prepareTx( false, !opts.reverse ); 
-            }, slideOpts.timeout );
+        if ( timeout ) {
+            opts._lastQueue = Date.now() || (new Date()).getTime();
+            if ( specificTimeout === undefined )
+                opts._remainingTimeout = slideOpts.timeout;
+
+            if ( !opts.paused && ! opts.hoverPaused ) {
+                opts.timeoutId = setTimeout(function() { 
+                    opts.API.prepareTx( false, !opts.reverse ); 
+                }, timeout );
+            }
         }
     },
 
