@@ -1,4 +1,4 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130322 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130324 */
 (function($) {
 "use strict";
 
@@ -6,8 +6,8 @@ $.extend($.fn.cycle.defaults, {
     autoHeight: 0 // setting this option to -1 disables autoHeight logic
 });    
 
-$(document).on( 'cycle-initialized cycle-slide-added cycle-slide-removed', initAutoHeight);
-$(document).on( 'cycle-destroyed', cleanup);
+$(document).on( 'cycle-initialized cycle-slide-added cycle-slide-removed', initAutoHeight );
+$(document).on( 'cycle-destroyed', cleanup );
 
 function initAutoHeight(e, opts) {
     var autoHeight = opts.autoHeight;
@@ -18,7 +18,14 @@ function initAutoHeight(e, opts) {
     $(window).on( 'resize orientationchange', onResize );
     opts._autoHeightOnResize = onResize;
 
-    if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
+    if ( autoHeight == 'container' ) {
+        opts.container.on( 'cycle-before', onBefore );
+        opts._autoHeightOnBefore = onBefore;
+
+        var h = $( opts.slides[ opts.currSlide || opts.startingSlide ] ).outerHeight();
+        opts.container.height( h );
+    }
+    else if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
         if ( autoHeight === 'calc' ) {
             autoHeight = calcSentinelIndex( opts );
         }
@@ -62,6 +69,12 @@ function initAutoHeight(e, opts) {
             }, 50);
         }
     }
+
+    function onBefore( e, opts, outgoing, incoming, forward ) {
+        var h = $(incoming).outerHeight();
+        var duration = opts.sync ? opts.speed / 2 : opts.speed;
+        opts.container.animate( { height: h }, duration );
+    }
 }    
 
 function cleanup( e, opts ) {
@@ -72,6 +85,9 @@ function cleanup( e, opts ) {
     if ( opts._autoHeightOnResize ) {
         $(window).off( 'resize orientationchange', opts._autoHeightOnResize );
         opts._autoHeightOnResize = null;
+    }
+    if ( opts._autoHeightOnBefore ) {
+        opts.container.off( 'cycle-before', opts._autoHeightOnBefore );
     }
 }
 
