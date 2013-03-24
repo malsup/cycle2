@@ -150,8 +150,7 @@ $.fn.cycle.API = {
     pause: function( hover ) {
         var opts = this.opts(),
             slideOpts = opts.API.getSlideOpts(),
-            alreadyPaused = opts.hoverPaused || opts.paused,
-            currTime;
+            alreadyPaused = opts.hoverPaused || opts.paused;
 
         if ( hover )
             opts.hoverPaused = true; 
@@ -167,8 +166,7 @@ $.fn.cycle.API = {
                 opts.timeoutId = 0;
                 
                 // determine how much time is left for the current slide
-                currTime = $.now();
-                opts._remainingTimeout -= ( currTime - opts._lastQueue );
+                opts._remainingTimeout -= ( $.now() - opts._lastQueue );
                 if ( opts._remainingTimeout < 0 )
                     opts._remainingTimeout = undefined;
             }
