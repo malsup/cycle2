@@ -1,40 +1,82 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130324 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130326 */
 (function($) {
 "use strict";
 
 $.extend($.fn.cycle.defaults, {
-    autoHeight: 0 // setting this option to -1 disables autoHeight logic
+    autoHeight: 0 // setting this option to false disables autoHeight logic
 });    
 
-$(document).on( 'cycle-initialized cycle-slide-added cycle-slide-removed', initAutoHeight );
-$(document).on( 'cycle-destroyed', cleanup );
-
-function initAutoHeight(e, opts) {
+$(document).on( 'cycle-initialized', function( e, opts ) {
     var autoHeight = opts.autoHeight;
-    var clone, ratio, timeout;
+    var t = $.type( autoHeight );
+    var resizeThrottle = null;
+    var ratio;
 
-    cleanup( e, opts );
+    if ( t !== 'string' && t !== 'number' )
+        return;
 
-    $(window).on( 'resize orientationchange', onResize );
-    opts._autoHeightOnResize = onResize;
+    // bind events
+    opts.container.on( 'cycle-slide-added cycle-slide-removed', initAutoHeight );
+    opts.container.on( 'cycle-destroyed', onDestroy );
 
     if ( autoHeight == 'container' ) {
         opts.container.on( 'cycle-before', onBefore );
-        opts._autoHeightOnBefore = onBefore;
+    }
+    else if ( t === 'string' && /\d+\:\d+/.test( autoHeight ) ) { 
+        // use ratio
+        ratio = autoHeight.match(/(\d+)\:(\d+)/);
+        ratio = ratio[1] / ratio[2];
+        opts._autoHeightRatio = ratio;
+    }
 
-        var h = $( opts.slides[ opts.currSlide || opts.startingSlide ] ).outerHeight();
-        opts.container.height( h );
+    // if autoHeight is a number then we don't need to recalculate the sentinel
+    // index on resize
+    if ( t !== 'number' ) {
+        // bind unique resize handler per slideshow (so it can be 'off-ed' in onDestroy)
+        opts._autoHeightOnResize = function () {
+            clearTimeout( resizeThrottle );
+            resizeThrottle = setTimeout( onResize, 50 );
+        };
+
+        $(window).on( 'resize orientationchange', opts._autoHeightOnResize );
+    }
+
+    setTimeout( onResize, 30 );
+
+    function onResize() {
+        initAutoHeight( e, opts );
+    }
+});
+
+function initAutoHeight( e, opts ) {
+    var clone, height, sentinelIndex;
+    var autoHeight = opts.autoHeight;
+
+    if ( autoHeight == 'container' ) {
+        height = $( opts.slides[ opts.currSlide ] ).outerHeight();
+        opts.container.height( height );
+    }
+    else if ( opts._autoHeightRatio ) { 
+        opts.container.height( opts.container.width() / opts._autoHeightRatio );
     }
     else if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
-        if ( autoHeight === 'calc' ) {
-            autoHeight = calcSentinelIndex( opts );
-        }
-        else if ( autoHeight >= opts.slides.length ) {
-            autoHeight = 0;
-        }
+        if ( autoHeight === 'calc' )
+            sentinelIndex = calcSentinelIndex( e, opts );
+        else if ( autoHeight >= opts.slides.length )
+            sentinelIndex = 0;
+        else 
+            sentinelIndex = autoHeight;
+
+        // only recreate sentinel if index is different
+        if ( sentinelIndex == opts._sentinelIndex )
+            return;
+
+        opts._sentinelIndex = sentinelIndex;
+        if ( opts._sentinel )
+            opts._sentinel.remove();
 
         // clone existing slide as sentinel
-        clone = $( opts.slides[ autoHeight ] ).clone();
+        clone = $( opts.slides[ sentinelIndex ].cloneNode(true) );
         
         // #50; remove special attributes from cloned content
         clone.removeAttr( 'id name rel' ).find( '[id],[name],[rel]' ).removeAttr( 'id name rel' );
@@ -48,50 +90,9 @@ function initAutoHeight(e, opts) {
 
         opts._sentinel = clone;
     }
-    else if ( $.type( autoHeight ) == 'string' && /\d+\:\d+/.test( autoHeight ) ) { 
-        // use ratio
-        ratio = autoHeight.match(/(\d+)\:(\d+)/);
-        ratio = ratio[1] / ratio[2];
-        opts._autoHeightRatio = ratio;
-        setTimeout(function() {
-            $(window).triggerHandler('resize');
-        },15);
-    }
-
-    function onResize() {
-        if ( opts._autoHeightRatio ) {
-            opts.container.height( opts.container.width() / ratio );
-        }
-        else {
-            clearTimeout( timeout );
-            timeout = setTimeout(function() {
-                initAutoHeight(e, opts);
-            }, 50);
-        }
-    }
-
-    function onBefore( e, opts, outgoing, incoming, forward ) {
-        var h = $(incoming).outerHeight();
-        var duration = opts.sync ? opts.speed / 2 : opts.speed;
-        opts.container.animate( { height: h }, duration );
-    }
 }    
 
-function cleanup( e, opts ) {
-    if ( opts._sentinel ) {
-        opts._sentinel.remove();
-        opts._sentinel = null;
-    }
-    if ( opts._autoHeightOnResize ) {
-        $(window).off( 'resize orientationchange', opts._autoHeightOnResize );
-        opts._autoHeightOnResize = null;
-    }
-    if ( opts._autoHeightOnBefore ) {
-        opts.container.off( 'cycle-before', opts._autoHeightOnBefore );
-    }
-}
-
-function calcSentinelIndex( opts ) {
+function calcSentinelIndex( e, opts ) {
     var index = 0, max = -1;
 
     // calculate tallest slide index
@@ -103,6 +104,27 @@ function calcSentinelIndex( opts ) {
         }
     });
     return index;
+}
+
+function onBefore( e, opts, outgoing, incoming, forward ) {
+    var h = $(incoming).outerHeight();
+    var duration = opts.sync ? opts.speed / 2 : opts.speed;
+    opts.container.animate( { height: h }, duration );
+}
+
+function onDestroy( e, opts ) {
+    if ( opts._autoHeightOnResize ) {
+        $(window).off( 'resize orientationchange', opts._autoHeightOnResize );
+        opts._autoHeightOnResize = null;
+    }
+    opts.container.off( 'cycle-slide-added cycle-slide-removed', initAutoHeight );
+    opts.container.off( 'cycle-destroyed', onDestroy );
+    opts.container.off( 'cycle-before', onBefore );
+
+    if ( opts._sentinel ) {
+        opts._sentinel.remove();
+        opts._sentinel = null;
+    }
 }
 
 })(jQuery);
