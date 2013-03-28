@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130323
+ * jQuery Cycle2 - Version: 20130327
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -138,7 +138,7 @@ $.fn.cycle.API = {
         // stage initial transition
         if ( opts.timeout ) {
             slideOpts = opts.API.getSlideOpts( opts.nextSlide );
-            opts.API.queueTransition( slideOpts );
+            opts.API.queueTransition( slideOpts, opts.timeout + opts.delay );
         }
 
         opts._initialized = true;
