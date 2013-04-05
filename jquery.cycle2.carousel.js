@@ -1,4 +1,4 @@
-/*! carousel transition plugin for Cycle2;  version: 20130108 */
+/*! carousel transition plugin for Cycle2;  version: 20130405 */
 (function($) {
 "use strict";
 
@@ -41,7 +41,7 @@ $.fn.cycle.transitions.carousel = {
 
     // transition API impl
     postInit: function( opts ) {
-        var pagerCutoffIndex, wrap;
+        var i, j, slide, pagerCutoffIndex, wrap;
         var vert = opts.carouselVertical;
         if (opts.carouselVisible && opts.carouselVisible > opts.slideCount)
             opts.carouselVisible = opts.slideCount - 1;
@@ -70,12 +70,15 @@ $.fn.cycle.transitions.carousel = {
             // near the end of the carousel.  for fluid containers, add even more clones
             // so there is plenty to fill the screen
             // @todo: optimzie this based on slide sizes
-            opts.slides.slice(0, opts.slideCount).clone().css( slideCSS ).appendTo( wrap );
-            if ( opts.carouselVisible === undefined )
-                opts.slides.slice(0, opts.slideCount).clone().css( slideCSS ).appendTo( wrap );
-            opts.slides.slice(0, opts.slideCount).clone().css( slideCSS ).prependTo( wrap );
-            if ( opts.carouselVisible === undefined )
-                opts.slides.slice(0, opts.slideCount).clone().css( slideCSS ).prependTo( wrap );
+
+            for ( j=0; j < (opts.carouselVisible === undefined ? 2 : 1); j++ ) {
+                for ( i=0; i < opts.slideCount; i++ ) {
+                    wrap.append( opts.slides[i].cloneNode(true) );
+                }
+                for ( i=0; i < opts.slideCount; i++ ) {
+                    wrap.prepend( opts.slides[i].cloneNode(true) );
+                }
+            }
 
             wrap.find('.cycle-slide-active').removeClass('cycle-slide-active');
             opts.slides.eq(opts.startingSlide).addClass('cycle-slide-active');
