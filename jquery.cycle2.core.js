@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130327
+ * jQuery Cycle2 - Version: 20130409
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20130323';
+var version = '20130409';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -520,8 +520,8 @@ $.fn.cycle.API = {
         var opts = this.opts();
         var selector = opts[name];
         if (typeof selector === 'string') {
-            // if selector is a child selector then use find, otherwise query full dom
-            return (/^\s*\>/).test( selector ) ? opts.container.find( selector ) : $( selector );
+            // if selector is a child, sibling combinator, adjancent selector then use find, otherwise query full dom
+            return (/^\s*[\>|\+|~]/).test( selector ) ? opts.container.find( selector ) : $( selector );
         }
         if (selector.jquery)
             return selector;
