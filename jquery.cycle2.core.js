@@ -520,8 +520,8 @@ $.fn.cycle.API = {
         var opts = this.opts();
         var selector = opts[name];
         if (typeof selector === 'string') {
-            // if selector is a child selector then use find, otherwise query full dom
-            return (/^\s*\>/).test( selector ) ? opts.container.find( selector ) : $( selector );
+            // if selector is a child, sibling combinator, adjancent selector then use find, otherwise query full dom
+            return (/^\s*[\>|\+|~]/).test( selector ) ? opts.container.find( selector ) : $( selector );
         }
         if (selector.jquery)
             return selector;
