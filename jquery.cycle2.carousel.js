@@ -55,7 +55,7 @@ $.fn.cycle.transitions.carousel = {
         opts._currSlide = opts.currSlide;
 
         // wrap slides in a div; this div is what is animated
-        wrap = $('<div class="cycle-carousel-wrap"></div')
+        wrap = $('<div class="cycle-carousel-wrap"></div>')
             .prependTo( opts.container )
             .css({ margin: 0, padding: 0, top: 0, left: 0, position: 'absolute' })
             .append( opts.slides );
