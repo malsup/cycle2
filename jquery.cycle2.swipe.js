@@ -10,8 +10,8 @@ var supportTouch = 'ontouchend' in document;
 $.event.special.swipe = $.event.special.swipe || {
     scrollSupressionThreshold: 10,   // More than this horizontal displacement, and we will suppress scrolling.
     durationThreshold: 1000,         // More time than this, and it isn't a swipe.
-    horizontalDistanceThreshold: 30, // Swipe horizontal displacement must be more than this.
-    verticalDistanceThreshold: 75,   // Swipe vertical displacement must be less than this.
+    distanceThresholdMin: 30, // Swipe horizontal displacement must be more than this.
+    distanceThresholdMax: 75,   // Swipe vertical displacement must be less than this.
 
     setup: function() {
         var $this = $( this );
@@ -36,7 +36,7 @@ $.event.special.swipe = $.event.special.swipe || {
                 };
 
                 // prevent scrolling
-                if ( Math.abs( start.coords[ 0 ] - stop.coords[ 0 ] ) > $.event.special.swipe.scrollSupressionThreshold ) {
+                if ( Math.abs( start.coords[ 0 ] - stop.coords[ 0 ] ) > $.event.special.swipe.scrollSupressionThreshold || Math.abs( start.coords[ 1 ] - stop.coords[ 1 ] ) > $.event.special.swipe.scrollSupressionThreshold) {
                     event.preventDefault();
                 }
             }
@@ -45,20 +45,32 @@ $.event.special.swipe = $.event.special.swipe || {
                 .one( 'touchend', function( event ) {
                     $this.unbind( 'touchmove', moveHandler );
 
-                    if ( start && stop ) {
-                        if ( stop.time - start.time < $.event.special.swipe.durationThreshold &&
-                                Math.abs( start.coords[ 0 ] - stop.coords[ 0 ] ) > $.event.special.swipe.horizontalDistanceThreshold &&
-                                Math.abs( start.coords[ 1 ] - stop.coords[ 1 ] ) < $.event.special.swipe.verticalDistanceThreshold ) {
-
-                            start.origin.trigger( "swipe" )
-                                .trigger( start.coords[0] > stop.coords[ 0 ] ? "swipeleft" : "swiperight" );
+                    if ( start && stop ) 
+                    {
+                        if ( stop.time - start.time < $.event.special.swipe.durationThreshold) 
+                        {
+                            var event_;
+                            if( Math.abs( start.coords[ 0 ] - stop.coords[ 0 ] ) > $.event.special.swipe.distanceThresholdMin &&
+                                Math.abs( start.coords[ 1 ] - stop.coords[ 1 ] ) < $.event.special.swipe.distanceThresholdMax ) 
+                            {
+                                    event_ = start.coords[0] > stop.coords[ 0 ] ? "swipeleft" : "swiperight";
+                            } 
+                            else if (Math.abs( start.coords[ 1 ] - stop.coords[ 1 ] ) > $.event.special.swipe.distanceThresholdMin &&
+                                Math.abs( start.coords[ 0 ] - stop.coords[ 0 ] ) < $.event.special.swipe.distanceThresholdMax) 
+                            {
+                                    event_ = start.coords[1] > stop.coords[ 1 ] ? "swipeup" : "swipedown";
+                            }
                         }
+                        start.origin.trigger( "swipe" )
+                                .trigger( event_ );
                     }
-                    start = stop = undefined;
+
+                start = stop = undefined;
                 });
         });
     }
 };
+
 
 $.event.special.swipeleft = $.event.special.swipeleft || {
     setup: function() {
@@ -66,5 +78,7 @@ $.event.special.swipeleft = $.event.special.swipeleft || {
     }
 };
 $.event.special.swiperight = $.event.special.swiperight || $.event.special.swipeleft;
+$.event.special.swipeup = $.event.special.swipeup || $.event.special.swipeleft;
+$.event.special.swipedown = $.event.special.swipedown || $.event.special.swipeleft;
 
 })(jQuery);
