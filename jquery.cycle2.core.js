@@ -138,7 +138,7 @@ $.fn.cycle.API = {
         // stage initial transition
         if ( opts.timeout ) {
             slideOpts = opts.API.getSlideOpts( opts.nextSlide );
-            opts.API.queueTransition( slideOpts, opts.timeout + opts.delay );
+            opts.API.queueTransition( slideOpts, slideOpts.timeout + opts.delay );
         }
 
         opts._initialized = true;
