@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130409
+ * jQuery Cycle2 - Version: 20130502
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -138,7 +138,7 @@ $.fn.cycle.API = {
         // stage initial transition
         if ( opts.timeout ) {
             slideOpts = opts.API.getSlideOpts( opts.nextSlide );
-            opts.API.queueTransition( slideOpts, opts.timeout + opts.delay );
+            opts.API.queueTransition( slideOpts, slideOpts.timeout + opts.delay );
         }
 
         opts._initialized = true;
@@ -167,7 +167,7 @@ $.fn.cycle.API = {
                 
                 // determine how much time is left for the current slide
                 opts._remainingTimeout -= ( $.now() - opts._lastQueue );
-                if ( opts._remainingTimeout < 0 )
+                if ( opts._remainingTimeout < 0 || isNaN(opts._remainingTimeout) )
                     opts._remainingTimeout = undefined;
             }
         }
