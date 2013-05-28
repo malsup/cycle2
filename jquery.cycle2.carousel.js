@@ -1,4 +1,4 @@
-/*! carousel transition plugin for Cycle2;  version: 20130411 */
+/*! carousel transition plugin for Cycle2;  version: 20130528 */
 (function($) {
 "use strict";
 
@@ -75,7 +75,8 @@ $.fn.cycle.transitions.carousel = {
                 for ( i=0; i < opts.slideCount; i++ ) {
                     wrap.append( opts.slides[i].cloneNode(true) );
                 }
-                for ( i=0; i < opts.slideCount; i++ ) {
+                i = opts.slideCount;
+                while ( i-- ) { // #160, #209
                     wrap.prepend( opts.slides[i].cloneNode(true) );
                 }
             }
