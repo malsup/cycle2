@@ -1,4 +1,4 @@
-/*! command plugin for Cycle2;  version: 20130525.1 */
+/*! command plugin for Cycle2;  version: 20130707 */
 (function($) {
 "use strict";
 
@@ -86,7 +86,7 @@ $.extend( c2.API, {
         if ( ! opts.retainStylesOnDestroy ) {
             opts.container.removeAttr( 'style' );
             opts.slides.removeAttr( 'style' );
-            opts.slides.removeClass( 'cycle-slide-active' );
+            opts.slides.removeClass( opts.slideActiveClass );
         }
         opts.slides.each(function() {
             $(this).removeData();
@@ -155,9 +155,12 @@ $.extend( c2.API, {
             opts.slides = $( slides );
             opts.slideCount--;
             $( slideToRemove ).remove();
-            if (index == opts.currSlide) {
+            if (index == opts.currSlide)
                 opts.API.advanceSlide( 1 );
-            }
+            else if ( index < opts.currSlide )
+                opts.currSlide--;
+            else
+                opts.currSlide++;
 
             opts.API.trigger('cycle-slide-removed', [ opts, index, slideToRemove ]).log('cycle-slide-removed');
             opts.API.updateView();
