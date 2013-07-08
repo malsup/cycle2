@@ -1,8 +1,8 @@
-/*! youtube plugin for Cycle2;  version: 20121120 */
+/*! youtube plugin for Cycle2;  version: 20130708 */
 (function($) {
 "use strict";
 
-var template = '<div><object width="640" height="360">' +
+var template = '<div class=cycle-youtube><object width="640" height="360">' +
     '<param name="movie" value="{{url}}"></param>' +
     '<param name="allowFullScreen" value="{{allowFullScreen}}"></param>' +
     '<param name="allowscriptaccess" value="always"></param>' +
@@ -24,6 +24,8 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
     opts.container.find( opts.slides ).each(function(i) {
         // convert anchors to template markup
+        if ( !this.href )
+            return;
         var markup, slide = $(this), url = slide.attr( 'href' );
         var fs = opts.youtubeAllowFullScreen ? 'true' : 'false';
         url += ( /\?/.test( url ) ? '&' : '?') + 'enablejsapi=1';
@@ -32,7 +34,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
         markup = opts.API.tmpl( template, { url: url, allowFullScreen: fs });
         slide.replaceWith( markup );
     });
-    opts.slides = '>div';
+    opts.slides = opts.slides.replace(/(\b>?a\b)/,'div.cycle-youtube');
 
     if ( opts.youtubeAutostart ) {
         opts.container.on( 'cycle-initialized cycle-after', function( e, opts ) {
