@@ -1,5 +1,5 @@
 /*!
- * jQuery Cycle2 - Version: 20130502
+ * jQuery Cycle2 - Version: 20130709
  * http://malsup.com/jquery/cycle2/
  * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
  * Requires: jQuery v1.7 or later
@@ -7,7 +7,7 @@
 ;(function($) {
 "use strict";
 
-var version = '20130409';
+var version = '20130709';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -183,9 +183,13 @@ $.fn.cycle.API = {
         else
             opts.paused = false;
 
+    
         if ( ! alreadyResumed ) {
             opts.container.removeClass('cycle-paused');
-            opts.API.queueTransition( opts.API.getSlideOpts(), opts._remainingTimeout );
+            // #gh-230; if an animation is in progress then don't queue a new transition; it will
+            // happen naturally
+            if ( opts.slides.filter(':animated').length === 0 )
+                opts.API.queueTransition( opts.API.getSlideOpts(), opts._remainingTimeout );
             opts.API.trigger('cycle-resumed', [ opts, opts._remainingTimeout ] ).log('cycle-resumed');
         }
     },
