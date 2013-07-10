@@ -43,8 +43,6 @@ $.fn.cycle.transitions.carousel = {
     postInit: function( opts ) {
         var i, j, slide, pagerCutoffIndex, wrap;
         var vert = opts.carouselVertical;
-        if (opts.carouselVisible && opts.carouselVisible > opts.slideCount)
-            opts.carouselVisible = opts.slideCount - 1;
         var visCount = opts.carouselVisible || opts.slides.length;
         var slideCSS = { display: vert ? 'block' : 'inline-block', position: 'static' };
 
