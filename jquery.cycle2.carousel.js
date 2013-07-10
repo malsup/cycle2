@@ -36,7 +36,11 @@ $.fn.cycle.transitions.carousel = {
         // issue #10
         for (var i=0; i < opts.startingSlide; i++) {
             opts.container.append( opts.slides[0] );
-        }        
+        }
+
+        if (opts.slideCount <= opts.carouselVisible)
+            opts._nextBoundry = 0;
+
     },
 
     // transition API impl
