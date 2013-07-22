@@ -1,4 +1,4 @@
-/*! tile transition plugin for Cycle2;  version: 20121120 */
+/*! tile transition plugin for Cycle2;  version: 20130721 */
 (function ($) {
 "use strict";
 
@@ -59,7 +59,9 @@ $.fn.cycle.transitions.tileBlind = {
             zIndex: $curr.css('z-index'),
             overflow: 'visible',
             position: 'absolute', 
-            top: 0
+            top: 0,
+            left: 0,
+            direction: 'ltr' // #250
         });
         tilesContainer.insertBefore( next );
 
