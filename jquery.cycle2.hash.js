@@ -1,4 +1,4 @@
-/*! hash plugin for Cycle2;  version: 20121120 */
+/*! hash plugin for Cycle2;  version: 20130725 */
 (function($) {
 "use strict";
 
@@ -13,7 +13,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
 });
 
 $(document).on( 'cycle-update-view', function( e, opts, slideOpts ) {
-    if ( slideOpts.hash ) {
+    if ( slideOpts.hash && ( '#' + slideOpts.hash ) != window.location.hash ) {
         opts._hashFence = true;
         window.location.hash = slideOpts.hash;
     }

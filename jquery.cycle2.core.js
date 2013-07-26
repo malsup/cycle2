@@ -1,13 +1,8 @@
-/*!
- * jQuery Cycle2 - Version: 20130709
- * http://malsup.com/jquery/cycle2/
- * Copyright (c) 2012 M. Alsup; Dual licensed: MIT/GPL
- * Requires: jQuery v1.7 or later
- */
+/*! core engine; version: 20130725 */
 ;(function($) {
 "use strict";
 
-var version = '20130709';
+var version = '20130725';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
