@@ -19,7 +19,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     opts.container.on( 'cycle-destroyed', destroy );
 
     opts.container.on( 'cycle-initialized cycle-slide-added cycle-slide-removed', function( e, opts, slideOpts, slide ) {
-        adjustActive();
+        resize();
     });
 
     adjustActive();
