@@ -1,4 +1,4 @@
-/*! center plugin for Cycle2;  version: 20130324 */
+/*! center plugin for Cycle2;  version: 20130731 */
 (function($) {
 "use strict";
 
@@ -41,7 +41,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
 
     function adjustActive() {
         /*jshint validthis: true */
-        adjustSlide.apply( opts.container.find( opts.slideActiveClass ) );
+        adjustSlide.apply( opts.container.find( '.' + opts.slideActiveClass ) );
         clearTimeout( timeout2 );
         timeout2 = setTimeout( adjustAll, 50 );
     }
