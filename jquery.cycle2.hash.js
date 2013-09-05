@@ -40,8 +40,9 @@ function onHashChange( opts, setStartingSlide ) {
                 opts.startingSlide = i;
             }
             else {
+                var fwd = opts.currSlide < i;
                 opts.nextSlide = i;
-                opts.API.prepareTx( true, false );
+                opts.API.prepareTx( true, fwd );
             }
             return false;
         }
