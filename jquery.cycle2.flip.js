@@ -1,4 +1,4 @@
-/*! css3 flip transition plugin for Cycle2;  version: 20130903 */
+/*! css3 flip transition plugin for Cycle2;  version: 20130909 */
 /*! originally written by Laubeee (https://github.com/Laubeee) */
 (function($) {
 "use strict";
@@ -12,7 +12,7 @@ var backface,
         style.oTransform !== undefined ||
         style.msTransform !== undefined;
 
-if ( supported && /MSIE/.test(navigator.userAgent) ) {
+if ( supported && style.msTransform !== undefined ) {
     style.msTransform = 'rotateY(0deg)';
     if ( ! style.msTransform )
         supported = false;
@@ -62,6 +62,7 @@ function getTransition( rotateFn ) {
                 duration: speed,
                 easing: opts.easeOut || opts.easing,
                 complete: function() {
+                    slideOpts.API.updateView( false, true );
                     next.animate({ backgroundPosition: 0 }, {
                         step: rotateFn,
                         duration: speed,

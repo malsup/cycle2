@@ -1,4 +1,4 @@
-/*! core engine; version: 20130725 */
+/*! core engine; version: 20130909 */
 ;(function($) {
 "use strict";
 
@@ -490,14 +490,14 @@ $.fn.cycle.API = {
         slide.addClass( opts.slideClass );
     },
 
-    updateView: function( isAfter ) {
+    updateView: function( isAfter, isDuring ) {
         var opts = this.opts();
         if ( !opts._initialized )
             return;
         var slideOpts = opts.API.getSlideOpts();
         var currSlide = opts.slides[ opts.currSlide ];
 
-        if ( ! isAfter ) {
+        if ( ! isAfter && isDuring !== true ) {
             opts.API.trigger('cycle-update-view-before', [ opts, slideOpts, currSlide ]);
             if ( opts.updateView < 0 )
                 return;
@@ -512,7 +512,9 @@ $.fn.cycle.API = {
             opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).hide();
 
         opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
-        opts.API.trigger('cycle-update-view-after', [ opts, slideOpts, currSlide ]);
+        
+        if ( isAfter )
+            opts.API.trigger('cycle-update-view-after', [ opts, slideOpts, currSlide ]);
     },
 
     getComponent: function( name ) {
