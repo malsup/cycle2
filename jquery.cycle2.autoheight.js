@@ -1,9 +1,11 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130304 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130913 */
 (function($) {
 "use strict";
 
 $.extend($.fn.cycle.defaults, {
-    autoHeight: 0 // setting this option to false disables autoHeight logic
+    autoHeight: 0, // setting this option to false disables autoHeight logic
+    autoHeightSpeed: 250,
+    autoHeightEasing: null
 });    
 
 $(document).on( 'cycle-initialized', function( e, opts ) {
