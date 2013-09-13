@@ -110,8 +110,7 @@ function calcSentinelIndex( e, opts ) {
 
 function onBefore( e, opts, outgoing, incoming, forward ) {
     var h = $(incoming).outerHeight();
-    var duration = opts.sync ? opts.speed / 2 : opts.speed;
-    opts.container.animate( { height: h }, duration );
+    opts.container.animate( { height: h }, opts.autoHeightSpeed, opts.autoHeightEasing );
 }
 
 function onDestroy( e, opts ) {
