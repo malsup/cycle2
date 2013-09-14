@@ -51,8 +51,8 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
         var slide = $(this);
         var contW = opts.container.width();
         var contH = opts.container.height();
-        var w = slide.width();
-        var h = slide.height();
+        var w = slide.outerWidth();
+        var h = slide.outerHeight();
         if (opts.centerHorz && w < contW)
             slide.css( 'marginLeft', (contW - w) / 2 );
         if (opts.centerVert && h < contH)
