@@ -6,7 +6,7 @@ $( document ).on('cycle-bootstrap', function( e, opts, API ) {
     if ( opts.fx !== 'carousel' )
         return;
 
-    API.getSlideIndex = function( el ) {
+    API.getSlideIndex = function( el ) {ge
         var slides = this.opts()._carouselWrap.children();
         var i = slides.index( el );
         return i % slides.length;
@@ -202,7 +202,7 @@ $.fn.cycle.transitions.carousel = {
             }
             else if ( !fwd && opts.nextSlide == opts.slideCount - 1 ) {
                 // moving from first slide to last
-                moveBy = this.getDim( opts, opts.currSlide, vert );
+                moveBy = this.getDim( opts, opts.nextSlide, vert );
                 callback = this.genCallback( opts, fwd, vert, callback );
             }
             else {
@@ -234,7 +234,7 @@ $.fn.cycle.transitions.carousel = {
         }
         else {
             for (i=currSlide; i > currSlide+hops; i--)
-                moveBy += this.getDim( opts, i, vert);
+                moveBy += this.getDim( opts, i-1, vert);
         }
         return moveBy;
     },
