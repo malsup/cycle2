@@ -122,7 +122,7 @@ $.fn.cycle.transitions.carousel = {
         offset = ( opts.carouselOffset || 0 );
         if ( opts.allowWrap !== false ) {
             if ( opts.carouselSlideDimension ) {
-                offset -= ( (opts.slideCount + opts.currSlide) * opts.carouselSlideDimension );
+                offset -= ( (opts.slideCount*(opts.carouselVisible === undefined ? 2 : 1) + opts.currSlide) * opts.carouselSlideDimension );
             }
             else {
                 // calculate offset based on actual slide dimensions
