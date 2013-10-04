@@ -101,7 +101,7 @@ $.fn.cycle.transitions.carousel = {
             $( opts.pager ).children().filter( ':gt('+pagerCutoffIndex+')' ).hide();
         }
 
-        opts._nextBoundry = opts.slideCount - opts.carouselVisible;
+        opts._nextBoundry = opts.slideCount - (opts.carouselVisible ? opts.carouselVisible : 1);
 
         this.prepareDimensions( opts );
     },
