@@ -1,8 +1,8 @@
-/*! core engine; version: 20130909 */
+/*! core engine; version: 20131003 */
 ;(function($) {
 "use strict";
 
-var version = '20130725';
+var version = '20131003';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -132,7 +132,7 @@ $.fn.cycle.API = {
 
         // stage initial transition
         if ( opts.timeout ) {
-            slideOpts = opts.API.getSlideOpts( opts.nextSlide );
+            slideOpts = opts.API.getSlideOpts( opts.currSlide );
             opts.API.queueTransition( slideOpts, slideOpts.timeout + opts.delay );
         }
 
