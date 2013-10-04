@@ -21,6 +21,16 @@ $( document ).on('cycle-bootstrap', function( e, opts, API ) {
         opts.API.trigger('cycle-next', [ opts ]).log('cycle-next');
     };
 
+    // override default 'prev' function
+    API.prev = function() {
+        var count = opts.reverse ? 1 : -1;
+        if ( opts.allowWrap === false && ( opts.currSlide + count ) > opts.slideCount - opts.carouselVisible )
+            return;
+        opts.API.advanceSlide( count );
+        opts.API.trigger('cycle-prev', [ opts ]).log('cycle-prev');
+    };
+
+
 });
 
 
@@ -91,7 +101,7 @@ $.fn.cycle.transitions.carousel = {
             $( opts.pager ).children().filter( ':gt('+pagerCutoffIndex+')' ).hide();
         }
 
-        opts._nextBoundry = opts.slideCount - opts.carouselVisible;
+        opts._nextBoundry = opts.slideCount - (opts.carouselVisible ? opts.carouselVisible : 1);
 
         this.prepareDimensions( opts );
     },
