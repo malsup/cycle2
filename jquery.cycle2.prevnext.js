@@ -44,12 +44,12 @@ $(document).on( 'cycle-update-view', function( e, opts, slideOpts, currSlide ) {
     var prevBoundry = opts._prevBoundry || 0;
     var nextBoundry = (opts._nextBoundry !== undefined)?opts._nextBoundry:opts.slideCount - 1;
 
-    if ( opts.currSlide == nextBoundry )
+    if ( opts.currSlide >= nextBoundry )
         next.addClass( cls ).prop( 'disabled', true );
     else
         next.removeClass( cls ).prop( 'disabled', false );
 
-    if ( opts.currSlide === prevBoundry )
+    if ( opts.currSlide <= prevBoundry )
         prev.addClass( cls ).prop( 'disabled', true );
     else
         prev.removeClass( cls ).prop( 'disabled', false );
