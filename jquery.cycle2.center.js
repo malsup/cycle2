@@ -1,4 +1,4 @@
-/*! center plugin for Cycle2;  version: 20130731 */
+/*! center plugin for Cycle2;  version: 20131006 */
 (function($) {
 "use strict";
 
