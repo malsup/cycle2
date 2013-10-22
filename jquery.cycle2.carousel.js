@@ -15,7 +15,8 @@ $( document ).on('cycle-bootstrap', function( e, opts, API ) {
     // override default 'next' function
     API.next = function() {
         var count = opts.reverse ? -1 : 1;
-        if ( opts.allowWrap === false && ( opts.currSlide + count ) > opts.slideCount - opts.carouselVisible )
+        var newCurrent = opts.currSlide + count;
+        if ( opts.allowWrap === false && (newCurrent < 0 || newCurrent > opts.slideCount - opts.carouselVisible ))
             return;
         opts.API.advanceSlide( count );
         opts.API.trigger('cycle-next', [ opts ]).log('cycle-next');
