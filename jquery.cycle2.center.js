@@ -53,10 +53,12 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
         var contH = opts.container.height();
         var w = slide.outerWidth();
         var h = slide.outerHeight();
-        if (opts.centerHorz && w <= contW)
-            slide.css( 'marginLeft', (contW - w) / 2 );
-        if (opts.centerVert && h <= contH)
-            slide.css( 'marginTop', (contH - h) / 2 );
+        if (w) {
+            if (opts.centerHorz && w <= contW)
+                slide.css( 'marginLeft', (contW - w) / 2 );
+            if (opts.centerVert && h <= contH)
+                slide.css( 'marginTop', (contH - h) / 2 );
+        }
     }
 });
 
