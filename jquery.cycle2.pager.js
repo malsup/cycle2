@@ -80,7 +80,7 @@ function page( pager, target ) {
 
     var index = pager.children().index( target );
     var nextSlide = index;
-    var fwd = opts.currSlide < nextSlide;
+    var fwd = opts.currSlide > (!opts.reverse === false ? nextSlide : -nextSlide);
     if (opts.currSlide == nextSlide) {
         return; // no op, clicked pager for the currently displayed slide
     }
