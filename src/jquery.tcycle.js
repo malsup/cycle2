@@ -6,7 +6,7 @@ $.fn.tcycle = function(){
 return this.each(function(){
 	var i=0, c=$(this), s=c.children(), o=$.extend({speed:500,timeout:4000},c.data()), f=o.fx!='scroll',
 		l=s.length, w=c.width(), z=o.speed, t=o.timeout, css={overflow:'hidden'}, p='position', a='absolute',
-		tfn=function(){setTimeout(tx,t)}, scss = $.extend({position:a,top:0}, f?{left:0}:{left:w}, o.scss);
+		tfn=function(){setTimeout(tx,t);}, scss = $.extend({position:a,top:0}, f?{left:0}:{left:w}, o.scss);
 	if (c.css(p)=='static')
 		css[p]='relative';
 	c.prepend($(s[0]).clone().css('visibility','hidden')).css(css);
@@ -33,5 +33,5 @@ return this.each(function(){
 });
 
 };
-$(function(){$('.tcycle').tcycle()});
+$(function(){$('.tcycle').tcycle();});
 })(jQuery);

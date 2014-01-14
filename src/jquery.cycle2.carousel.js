@@ -97,7 +97,7 @@ $.fn.cycle.transitions.carousel = {
     },
 
     prepareDimensions: function( opts ) {
-        var dim, offset, pagerCutoffIndex, tmp;
+        var dim, offset, pagerCutoffIndex, tmp, j;
         var vert = opts.carouselVertical;
         var visCount = opts.carouselVisible || opts.slides.length;
 
@@ -127,7 +127,7 @@ $.fn.cycle.transitions.carousel = {
             else {
                 // calculate offset based on actual slide dimensions
                 tmp = opts._carouselWrap.children();
-                for (var j=0; j < (opts.slideCount + opts.currSlide); j++) {
+                for (j=0; j < (opts.slideCount + opts.currSlide); j++) {
                     offset -= $(tmp[j])[vert?'outerHeight':'outerWidth'](true);
                 }
             }

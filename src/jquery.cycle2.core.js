@@ -1,8 +1,8 @@
-/*! core engine; version: 20131003 */
+/* Cycle2 core engine */
 ;(function($) {
 "use strict";
 
-var version = '20131003';
+var version = '20140114';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -490,7 +490,7 @@ $.fn.cycle.API = {
         slide.addClass( opts.slideClass );
     },
 
-    updateView: function( isAfter, isDuring ) {
+    updateView: function( isAfter, isDuring, forceEvent ) {
         var opts = this.opts();
         if ( !opts._initialized )
             return;
@@ -511,7 +511,14 @@ $.fn.cycle.API = {
         if ( isAfter && opts.hideNonActive )
             opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).hide();
 
-        opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
+        if ( opts.updateView === 0 ) {
+            setTimeout(function() {
+                opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
+            }, slideOpts.speed / (opts.sync ? 2 : 1) );
+        }
+
+        if ( opts.updateView !== 0 )
+            opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
         
         if ( isAfter )
             opts.API.trigger('cycle-update-view-after', [ opts, slideOpts, currSlide ]);
@@ -644,7 +651,7 @@ $.fn.cycle.defaults = {
     startingSlide:    0,
     sync:             true,
     timeout:          4000,
-    updateView:       -1
+    updateView:       0
 };
 
 // automatically find and run slideshows
