@@ -12,7 +12,7 @@ In your web page:
 &lt;!-- include jQuery -->
 &lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js">&lt;/script>
 &lt;!-- include Cycle2 -->
-&lt;script src="http://path/to/your/copy/of/jquery.cycle2.js">&lt;/script>
+&lt;script src="http://path/to/your/copy/of/jquery.cycle2.min.js">&lt;/script>
 
 ...
 
@@ -29,9 +29,26 @@ That's it!  You don't need to write any script to initialize the slideshow, Cycl
 Everything you need to know can be found here: 
 [http://jquery.malsup.com/cycle2/](http://jquery.malsup.com/cycle2/)
 
+## Bower
+To install Cycle2 via Bower:
+<pre>bower install jquery-cycle2</pre>
+The only file you will need (unless you're customizing) is <code>build/jquery.cycle2.min.js</code>
+
+(Other files are available for advanced customization and you can read more about them on the [download]
+and [advanced download][advanced] pages.)
+
+[download]: http://jquery.malsup.com/cycle2/download/
+[advanced]: http://jquery.malsup.com/cycle2/download/advanced.php
+
+
+## Build
+If you want to make changes to Cycle2 and build it yourself, you can do so by installing the node build dependencies:
+<pre>npm install</pre>
+and then running grunt
+<pre>grunt</pre>
 
 ## Copyright and License
-Copyright &copy; 2012 M. Alsup.
+Copyright &copy; 2012-2014 M. Alsup.
 
 The Cycle2 plugin is dual licensed under the [MIT](http://malsup.github.com/mit-license.txt) and [GPL](http://malsup.github.com/gpl-license-v2.txt) licenses.
 

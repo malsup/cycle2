@@ -63,7 +63,7 @@ grunt.initConfig({
                     '* Copyright (c) <%= grunt.template.today("yyyy") %> M. Alsup; Dual licensed: MIT/GPL\n*/\n'
             },
             files: {
-                'build/jquery.cycle2.core.min.js': [ 'src/jquery.cycle2.core.js' ]
+                'build/core/jquery.cycle2.core.min.js': [ 'src/jquery.cycle2.core.js' ]
             }
         },
 
@@ -72,25 +72,26 @@ grunt.initConfig({
                 banner: '/* Plugin for Cycle2; Copyright (c) 2012 M. Alsup; v<%= grunt.template.today("yyyymmdd") %> */\n'
             },
             files: {
-                'build/jquery.cycle2.autoheight.min.js':  [ 'src/jquery.cycle2.autoheight.js' ],
-                'build/jquery.cycle2.caption.min.js':     [ 'src/jquery.cycle2.caption.js' ],
-                'build/jquery.cycle2.caption2.min.js':    [ 'src/jquery.cycle2.caption2.js' ],
-                'build/jquery.cycle2.carousel.min.js':    [ 'src/jquery.cycle2.carousel.js' ],
-                'build/jquery.cycle2.center.min.js':      [ 'src/jquery.cycle2.center.js' ],
-                'build/jquery.cycle2.command.min.js':     [ 'src/jquery.cycle2.command.js' ],
-                'build/jquery.cycle2.flip.min.js':        [ 'src/jquery.cycle2.flip.js' ],
-                'build/jquery.cycle2.hash.min.js':        [ 'src/jquery.cycle2.hash.js' ],
-                'build/jquery.cycle2.ie-fade.min.js':     [ 'src/jquery.cycle2.ie-fade.js' ],
-                'build/jquery.cycle2.loader.min.js':      [ 'src/jquery.cycle2.loader.js' ],
-                'build/jquery.cycle2.pager.min.js':       [ 'src/jquery.cycle2.pager.js' ],
-                'build/jquery.cycle2.prevnext.min.js':    [ 'src/jquery.cycle2.prevnext.js' ],
-                'build/jquery.cycle2.progressive.min.js': [ 'src/jquery.cycle2.progressive.js' ],
-                'build/jquery.cycle2.scrollVert.min.js':  [ 'src/jquery.cycle2.scrollVert.js' ],
-                'build/jquery.cycle2.shuffle.min.js':     [ 'src/jquery.cycle2.shuffle.js' ],
-                'build/jquery.cycle2.swipe.min.js':       [ 'src/jquery.cycle2.swipe.js' ],
-                'build/jquery.cycle2.tile.min.js':        [ 'src/jquery.cycle2.tile.js' ],
-                'build/jquery.cycle2.tmpl.min.js':        [ 'src/jquery.cycle2.tmpl.js' ],
-                'build/jquery.cycle2.video.min.js':       [ 'src/jquery.cycle2.video.js' ]
+                'build/core/jquery.cycle2.autoheight.min.js':  [ 'src/jquery.cycle2.autoheight.js' ],
+                'build/core/jquery.cycle2.caption.min.js':     [ 'src/jquery.cycle2.caption.js' ],
+                'build/core/jquery.cycle2.command.min.js':     [ 'src/jquery.cycle2.command.js' ],
+                'build/core/jquery.cycle2.hash.min.js':        [ 'src/jquery.cycle2.hash.js' ],
+                'build/core/jquery.cycle2.loader.min.js':      [ 'src/jquery.cycle2.loader.js' ],
+                'build/core/jquery.cycle2.pager.min.js':       [ 'src/jquery.cycle2.pager.js' ],
+                'build/core/jquery.cycle2.prevnext.min.js':    [ 'src/jquery.cycle2.prevnext.js' ],
+                'build/core/jquery.cycle2.progressive.min.js': [ 'src/jquery.cycle2.progressive.js' ],
+                'build/core/jquery.cycle2.tmpl.min.js':        [ 'src/jquery.cycle2.tmpl.js' ],
+                
+                'build/plugin/jquery.cycle2.caption2.min.js':    [ 'src/jquery.cycle2.caption2.js' ],
+                'build/plugin/jquery.cycle2.carousel.min.js':    [ 'src/jquery.cycle2.carousel.js' ],
+                'build/plugin/jquery.cycle2.center.min.js':      [ 'src/jquery.cycle2.center.js' ],
+                'build/plugin/jquery.cycle2.flip.min.js':        [ 'src/jquery.cycle2.flip.js' ],
+                'build/plugin/jquery.cycle2.ie-fade.min.js':     [ 'src/jquery.cycle2.ie-fade.js' ],
+                'build/plugin/jquery.cycle2.scrollVert.min.js':  [ 'src/jquery.cycle2.scrollVert.js' ],
+                'build/plugin/jquery.cycle2.shuffle.min.js':     [ 'src/jquery.cycle2.shuffle.js' ],
+                'build/plugin/jquery.cycle2.swipe.min.js':       [ 'src/jquery.cycle2.swipe.js' ],
+                'build/plugin/jquery.cycle2.tile.min.js':        [ 'src/jquery.cycle2.tile.js' ],
+                'build/plugin/jquery.cycle2.video.min.js':       [ 'src/jquery.cycle2.video.js' ]
             }
         },
 
@@ -99,7 +100,7 @@ grunt.initConfig({
                 banner: '/* tCycle; (c) 2012 M. Alsup; MIT/GPL; v<%= grunt.template.today("yyyymmdd") %> */\n'
             },
             files: {
-                'build/jquery.tcycle.min.js': [ 'src/jquery.tcycle.js' ]
+                'build/tcycle/jquery.tcycle.min.js': [ 'src/jquery.tcycle.js' ]
             }
         }
     },
