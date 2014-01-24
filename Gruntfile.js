@@ -3,16 +3,19 @@ module.exports = function(grunt) {
 
 "use strict";
 
+require( "matchdep" ).filterDev( "grunt-*" )
+    .forEach(grunt.loadNpmTasks);
+
 grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
     concat: {
-        options: { 
+        options: {
             separator: '\n',
             banner: '/*!\n* jQuery Cycle2; version: <%=pkg.version %> build: <%= grunt.template.today("yyyymmdd") %>\n' +
               '* http://jquery.malsup.com/cycle2/\n' +
               '* Copyright (c) <%= grunt.template.today("yyyy") %> M. Alsup; Dual licensed: MIT/GPL\n*/\n\n'
-        }, 
+        },
         dist: {
         src: [
             'src/jquery.cycle2.core.js',
@@ -81,7 +84,7 @@ grunt.initConfig({
                 'build/core/jquery.cycle2.prevnext.min.js':    [ 'src/jquery.cycle2.prevnext.js' ],
                 'build/core/jquery.cycle2.progressive.min.js': [ 'src/jquery.cycle2.progressive.js' ],
                 'build/core/jquery.cycle2.tmpl.min.js':        [ 'src/jquery.cycle2.tmpl.js' ],
-                
+
                 'build/plugin/jquery.cycle2.caption2.min.js':    [ 'src/jquery.cycle2.caption2.js' ],
                 'build/plugin/jquery.cycle2.carousel.min.js':    [ 'src/jquery.cycle2.carousel.js' ],
                 'build/plugin/jquery.cycle2.center.min.js':      [ 'src/jquery.cycle2.center.js' ],
@@ -105,17 +108,22 @@ grunt.initConfig({
         }
     },
 
+    connect: {
+      server: {
+        options: {
+          port: 9001,
+          livereload: true,
+          keepalive: true
+        }
+      }
+    },
+
     watch: {
         files: 'src/*.js',
-        tasks: 'jshint concat uglify'
+        tasks: ['jshint', 'concat', 'uglify']
     }
 
 });
-
-grunt.loadNpmTasks('grunt-contrib-jshint');
-grunt.loadNpmTasks('grunt-contrib-concat');
-grunt.loadNpmTasks('grunt-contrib-uglify');
-grunt.loadNpmTasks('grunt-contrib-watch');
 
 grunt.registerTask('default', [ 'jshint', 'concat', 'uglify' ]);
 
