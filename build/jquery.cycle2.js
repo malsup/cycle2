@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.0.2 build: 20140123
+* jQuery Cycle2; version: 2.0.2 build: 20140124
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -1444,7 +1444,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
             $hydrated = $( $slide.data("cycle.progressive") ).addClass( "cycle-slide" ),
             slideOpts = $slide.data( "cycle.opts" ), $images;
 
-        $hydrated.data( "cycle.opts", slideOpts );
+        $hydrated.data( "cycle.opts", slideOpts ).hide();
         progressive.replaceSlide( $hydrated[0], index, opts );
         opts.container.data( "cycle.opts", opts );
         opts.container.find( ".cycle-slide" ).eq( index + 1 ).replaceWith( $hydrated );

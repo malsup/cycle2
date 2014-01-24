@@ -37,7 +37,7 @@ describe( "Progressive", function() {
     });
 
     describe( "hydrate", function() {
-      var markup = "<a href=\"#\" class=\"\"><img src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"></a>", $slide, $hydrated;
+      var markup = "<a href=\"#\" style=\"display: none;\" class=\"\"><img src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\"></a>", $slide, $hydrated;
 
       beforeEach(function() {
         $slide = progressive.buildSlide( markup ).data( "cycle.opts", { success: true } );

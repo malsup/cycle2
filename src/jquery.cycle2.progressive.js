@@ -97,7 +97,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
             $hydrated = $( $slide.data("cycle.progressive") ).addClass( "cycle-slide" ),
             slideOpts = $slide.data( "cycle.opts" ), $images;
 
-        $hydrated.data( "cycle.opts", slideOpts );
+        $hydrated.data( "cycle.opts", slideOpts ).hide();
         progressive.replaceSlide( $hydrated[0], index, opts );
         opts.container.data( "cycle.opts", opts );
         opts.container.find( ".cycle-slide" ).eq( index + 1 ).replaceWith( $hydrated );
