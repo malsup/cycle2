@@ -108,15 +108,6 @@ grunt.initConfig({
         }
     },
 
-    copy: {
-        main: {
-            src: "build/jquery.cycle2.js",
-            dest: "../dr-root/vendor/assets/javascripts/",
-            flatten: true,
-            expand: true
-        }
-    },
-
     jasmine: {
       pivotal: {
         src: "build/jquery.cycle2.js",
@@ -142,7 +133,7 @@ grunt.initConfig({
 
     watch: {
         files: 'src/*.js',
-        tasks: ['jshint', 'concat', 'uglify', 'copy']
+        tasks: ['jshint', 'concat', 'uglify']
     }
 
 });
