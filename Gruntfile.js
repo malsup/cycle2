@@ -108,19 +108,6 @@ grunt.initConfig({
         }
     },
 
-    jasmine: {
-      pivotal: {
-        src: "build/jquery.cycle2.js",
-        options: {
-          specs: "spec/**/*.spec.js",
-          vendor: [
-            "bower_components/jquery/jquery.js"
-          ],
-          template: "spec/index.tmpl"
-        }
-      }
-    },
-
     connect: {
       server: {
         options: {
@@ -138,6 +125,6 @@ grunt.initConfig({
 
 });
 
-grunt.registerTask('default', [ 'jshint', 'concat', 'uglify', 'jasmine' ]);
+grunt.registerTask('default', [ 'jshint', 'concat', 'uglify' ]);
 
 };
