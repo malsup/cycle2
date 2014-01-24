@@ -1,4 +1,4 @@
-/*! center plugin for Cycle2;  version: 20131201 */
+/*! center plugin for Cycle2;  version: 20140121 */
 (function($) {
 "use strict";
 
@@ -14,7 +14,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     // throttle resize event
     var timeout, timeout2;
 
-    $(window).on( 'resize orientationchange', resize );
+    $(window).on( 'resize orientationchange load', resize );
     
     opts.container.on( 'cycle-destroyed', destroy );
 
