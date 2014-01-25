@@ -509,7 +509,7 @@ $.fn.cycle.API = {
         }
 
         if ( isAfter && opts.hideNonActive )
-            opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).css('visibility', 'hidden');
+            opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).css('display', 'block');
 
         opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
         opts.API.trigger('cycle-update-view-after', [ opts, slideOpts, currSlide ]);
