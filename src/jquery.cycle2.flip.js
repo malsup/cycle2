@@ -50,7 +50,7 @@ function getTransition( rotateFn ) {
             // css before transition start
             rotateFn.call(next, -90);
             next.css({
-                'display': 'block',
+                'visibility': 'visible',
                 'background-position': '-90px',
                 'opacity': 1
             });

@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.0.2 build: 20140114
+* jQuery Cycle2; version: 2.1.0 build: 20140126
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -8,7 +8,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.0.2';
+var version = '2.1.0';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -122,7 +122,7 @@ $.fn.cycle.API = {
         if ( opts.container.css('position') == 'static' )
             opts.container.css('position', 'relative');
 
-        $(opts.slides[opts.currSlide]).css('opacity',1).show();
+        $(opts.slides[opts.currSlide]).css('opacity',1).css('visibility', 'visible');
         opts.API.stackSlides( opts.slides[opts.currSlide], opts.slides[opts.nextSlide], !opts.reverse );
 
         if ( opts.pauseOnHover ) {
@@ -515,7 +515,7 @@ $.fn.cycle.API = {
         }
 
         if ( isAfter && opts.hideNonActive )
-            opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).hide();
+            opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).css('visibility', 'hidden');
 
         if ( opts.updateView === 0 ) {
             setTimeout(function() {
@@ -602,14 +602,14 @@ $.fn.cycle.transitions = {
     none: {
         before: function( opts, curr, next, fwd ) {
             opts.API.stackSlides( next, curr, fwd );
-            opts.cssBefore = { opacity: 1, display: 'block' };
+            opts.cssBefore = { opacity: 1, visibility: 'visible' };
         }
     },
     fade: {
         before: function( opts, curr, next, fwd ) {
             var css = opts.API.getSlideOpts( opts.nextSlide ).slideCss || {};
             opts.API.stackSlides( curr, next, fwd );
-            opts.cssBefore = $.extend(css, { opacity: 0, display: 'block' });
+            opts.cssBefore = $.extend(css, { opacity: 0, visibility: 'visible' });
             opts.animIn = { opacity: 1 };
             opts.animOut = { opacity: 0 };
         }
@@ -618,7 +618,7 @@ $.fn.cycle.transitions = {
         before: function( opts , curr, next, fwd ) {
             var css = opts.API.getSlideOpts( opts.nextSlide ).slideCss || {};
             opts.API.stackSlides( curr, next, fwd );
-            opts.cssBefore = $.extend(css, { opacity: 1, display: 'block' });
+            opts.cssBefore = $.extend(css, { opacity: 1, visibility: 'visible' });
             opts.animOut = { opacity: 0 };
         }
     },
@@ -626,7 +626,7 @@ $.fn.cycle.transitions = {
         before: function( opts, curr, next, fwd ) {
             opts.API.stackSlides( curr, next, fwd );
             var w = opts.container.css('overflow','hidden').width();
-            opts.cssBefore = { left: fwd ? w : - w, top: 0, opacity: 1, display: 'block' };
+            opts.cssBefore = { left: fwd ? w : - w, top: 0, opacity: 1, visibility: 'visible' };
             opts.cssAfter = { zIndex: opts._maxZ - 2, left: 0 };
             opts.animIn = { left: 0 };
             opts.animOut = { left: fwd ? -w : w };
@@ -1112,7 +1112,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
         if ( ! slideCount )
             return;
 
-        slides.hide().appendTo('body').each(function(i) { // appendTo fixes #56
+        slides.css('visibility','hidden').appendTo('body').each(function(i) { // appendTo fixes #56
             var count = 0;
             var slide = $(this);
             var images = slide.is('img') ? slide : slide.find('img');

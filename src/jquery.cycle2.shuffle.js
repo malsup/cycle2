@@ -5,7 +5,7 @@
 $.fn.cycle.transitions.shuffle = {
 
     transition: function( opts, currEl, nextEl, fwd, callback ) {
-        $( nextEl ).show();
+        $( nextEl ).css('visibility','visible');
         var width = opts.container.css( 'overflow', 'visible' ).width();
         var speed = opts.speed / 2; // shuffle has 2 transitions
         var element = fwd ? currEl : nextEl;
