@@ -1,4 +1,4 @@
-/*! css3 flip transition plugin for Cycle2;  version: 20130909 */
+/*! css3 flip transition plugin for Cycle2;  version: 20140128 */
 /*! originally written by Laubeee (https://github.com/Laubeee) */
 (function($) {
 "use strict";
@@ -50,6 +50,7 @@ function getTransition( rotateFn ) {
             // css before transition start
             rotateFn.call(next, -90);
             next.css({
+                'display': 'block',
                 'visibility': 'visible',
                 'background-position': '-90px',
                 'opacity': 1

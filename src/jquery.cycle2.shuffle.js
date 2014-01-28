@@ -1,11 +1,14 @@
-/*! shuffle transition plugin for Cycle2;  version: 20121120 */
+/*! shuffle transition plugin for Cycle2;  version: 20140128 */
 (function($) {
 "use strict";
 
 $.fn.cycle.transitions.shuffle = {
 
     transition: function( opts, currEl, nextEl, fwd, callback ) {
-        $( nextEl ).css('visibility','visible');
+        $( nextEl ).css({
+            display: 'block',
+            visibility: 'visible'
+        });
         var width = opts.container.css( 'overflow', 'visible' ).width();
         var speed = opts.speed / 2; // shuffle has 2 transitions
         var element = fwd ? currEl : nextEl;

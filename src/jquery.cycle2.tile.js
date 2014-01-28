@@ -1,4 +1,4 @@
-/*! tile transition plugin for Cycle2;  version: 20130721 */
+/*! tile transition plugin for Cycle2;  version: 20140128 */
 (function ($) {
 "use strict";
 
@@ -7,7 +7,10 @@ $.fn.cycle.transitions.tileBlind = {
 
     before: function( opts, curr, next, fwd ) {
         opts.API.stackSlides( curr, next, fwd );
-        $(curr).css('visibility','visible');
+        $(curr).css({
+            display: 'block',
+            visibility: 'visible'
+        });
         opts.container.css('overflow', 'hidden');
         // set defaults
         opts.tileDelay = opts.tileDelay || opts.fx == 'tileSlide' ? 100 : 125;
@@ -88,13 +91,17 @@ $.fn.cycle.transitions.tileBlind = {
         tilesContainer.append(tiles);
         $curr.css('visibility','hidden');
         $next.css({
-            'opacity': 1,
-            'visibility': 'visible'
+            opacity: 1,
+            display: 'block',
+            visibility: 'visible'
         });
         animateTile(fwd ? 0 : num - 1);
         
         opts._tileAniCallback = function() {
-            $next.css('visibility', 'visible');
+            $next.css({
+                display: 'block',
+                visibility: 'visible'
+            });
             $curr.css('visibility','hidden');
             tilesContainer.remove();
             callback();
