@@ -67,7 +67,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
         API.prepareTx = function( manual, fwd ) {
             var opts = this.opts(),
                 index = fwd ? opts.currSlide + 1 : opts.currSlide - 1,
-                $slide = $( opts.slides[index] );
+                $slide = $( opts.slides[index >= 0 ? index : opts.slideCount - 1] );
 
             progressive.navigate( $slide, function( api, args ) {
                 return function() {

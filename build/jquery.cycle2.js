@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.0.2 build: 20140124
+* jQuery Cycle2; version: 2.0.2 build: 20140207
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -1414,7 +1414,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
         API.prepareTx = function( manual, fwd ) {
             var opts = this.opts(),
                 index = fwd ? opts.currSlide + 1 : opts.currSlide - 1,
-                $slide = $( opts.slides[index] );
+                $slide = $( opts.slides[index >= 0 ? index : opts.slideCount - 1] );
 
             progressive.navigate( $slide, function( api, args ) {
                 return function() {
