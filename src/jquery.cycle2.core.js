@@ -2,7 +2,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.1.1';
+var version = '2.1.2';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -398,6 +398,16 @@ $.fn.cycle.API = {
             // reset nextSlide
             opts.nextSlide = opts.currSlide;
             return;
+        }
+        if ( opts.continueAuto !== undefined ) {
+            if ( opts.continueAuto === false || 
+                ($.isFunction(opts.continueAuto) && opts.continueAuto() === false )) {
+                opts.API.log('terminating automatic transitions');
+                opts.timeout = 0;
+                if ( opts.timeoutId )
+                    clearTimeout(opts.timeoutId);
+                return;
+            }
         }
         if ( timeout ) {
             opts._lastQueue = $.now();
