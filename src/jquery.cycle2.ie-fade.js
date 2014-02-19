@@ -1,4 +1,4 @@
-/*! ie-fade transition plugin for Cycle2;  version: 20121120 */
+/*! ie-fade transition plugin for Cycle2;  version: 20140219 */
 (function($) {
 "use strict";
 
@@ -18,7 +18,7 @@ $.extend($.fn.cycle.transitions, {
         before: function( opts, curr, next, fwd ) {
             var css = opts.API.getSlideOpts( opts.nextSlide ).slideCss || {};
             opts.API.stackSlides( curr, next, fwd );
-            opts.cssBefore = $.extend(css, { opacity: 0, display: 'block' });
+            opts.cssBefore = $.extend(css, { opacity: 0, visibility: 'visible', display: 'block' });
             opts.animIn    = { opacity: 1 };
             opts.animOut   = { opacity: 0 };
             cleartype( true, opts, next );
@@ -31,7 +31,7 @@ $.extend($.fn.cycle.transitions, {
         before: function( opts , curr, next, fwd ) {
             var css = opts.API.getSlideOpts( opts.nextSlide ).slideCss || {};
             opts.API.stackSlides( curr, next, fwd );
-            opts.cssBefore = $.extend(css, { opacity: 1, display: 'block' });
+            opts.cssBefore = $.extend(css, { opacity: 1, visibility: 'visible', display: 'block' });
             opts.animOut = { opacity: 0 };
             cleartype( true, opts, next );
         },
