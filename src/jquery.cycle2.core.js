@@ -214,9 +214,14 @@ $.fn.cycle.API = {
             opts.slideCount++;
             slideOpts = opts.API.buildSlideOpts( slide );
 
-            if ( prepend )
+            if ( prepend ) {
                 opts.slides = $( slide ).add( opts.slides );
-            else
+                opts.currSlide++;
+                opts.nextSlide++; 
+
+                if ( opts.nextSlide >= opts.slideCount )
+                    opts.nextSlide -= opts.slideCount;
+            } else
                 opts.slides = opts.slides.add( slide );
 
             opts.API.initSlide( slideOpts, slide, --opts._maxZ );

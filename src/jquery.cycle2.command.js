@@ -155,12 +155,11 @@ $.extend( c2.API, {
             opts.slides = $( slides );
             opts.slideCount--;
             $( slideToRemove ).remove();
-            if (index == opts.currSlide)
+            if ( index == opts.currSlide ) {
+				opts.nextSlide = opts.currSlide--;
                 opts.API.advanceSlide( 1 );
-            else if ( index < opts.currSlide )
-                opts.currSlide--;
-            else
-                opts.currSlide++;
+            } else if ( index < opts.currSlide )
+                opts.nextSlide = opts.currSlide--;
 
             opts.API.trigger('cycle-slide-removed', [ opts, index, slideToRemove ]).log('cycle-slide-removed');
             opts.API.updateView();
