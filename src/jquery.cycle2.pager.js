@@ -1,4 +1,4 @@
-/*! pager plugin for Cycle2;  version: 20130525 */
+/*! pager plugin for Cycle2;  version: 20140324 */
 (function($) {
 "use strict";
 
@@ -6,6 +6,7 @@ $.extend($.fn.cycle.defaults, {
     pager:            '> .cycle-pager',
     pagerActiveClass: 'cycle-pager-active',
     pagerEvent:       'click.cycle',
+    pagerEventBubble: undefined,
     pagerTemplate:    '<span>&bull;</span>'
 });    
 
@@ -66,7 +67,8 @@ function buildPagerLink( opts, slideOpts, slide ) {
             pagerLink = pager.children().eq( opts.slideCount - 1 );
         }
         pagerLink.on( opts.pagerEvent, function(e) {
-            e.preventDefault();
+            if ( ! opts.pagerEventBubble )
+                e.preventDefault();
             opts.API.page( pager, e.currentTarget);
         });
     });

@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.1.2 build: 20140216
+* jQuery Cycle2; version: 2.1.3 build: 20140314
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -1199,7 +1199,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
 })(jQuery);
 
-/*! pager plugin for Cycle2;  version: 20130525 */
+/*! pager plugin for Cycle2;  version: 20140324 */
 (function($) {
 "use strict";
 
@@ -1207,6 +1207,7 @@ $.extend($.fn.cycle.defaults, {
     pager:            '> .cycle-pager',
     pagerActiveClass: 'cycle-pager-active',
     pagerEvent:       'click.cycle',
+    pagerEventBubble: undefined,
     pagerTemplate:    '<span>&bull;</span>'
 });    
 
@@ -1267,7 +1268,8 @@ function buildPagerLink( opts, slideOpts, slide ) {
             pagerLink = pager.children().eq( opts.slideCount - 1 );
         }
         pagerLink.on( opts.pagerEvent, function(e) {
-            e.preventDefault();
+            if ( ! opts.pagerEventBubble )
+                e.preventDefault();
             opts.API.page( pager, e.currentTarget);
         });
     });
