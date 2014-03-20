@@ -25,7 +25,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
     opts.container.find( opts.slides ).each(function(i) {
         // convert anchors to template markup
-        if ( !this.href )
+        if ( jQuery(this).attr('href') === undefined )
             return;
         var markup, slide = $(this), url = slide.attr( 'href' );
         var fs = opts.youtubeAllowFullScreen ? 'true' : 'false';
