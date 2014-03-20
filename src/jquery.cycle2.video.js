@@ -6,7 +6,8 @@ var template = '<div class=cycle-youtube><object width="640" height="360">' +
     '<param name="movie" value="{{url}}"></param>' +
     '<param name="allowFullScreen" value="{{allowFullScreen}}"></param>' +
     '<param name="allowscriptaccess" value="always"></param>' +
-    '<embed src="{{url}}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="{{allowFullScreen}}"></embed>' +
+    '<param name="wmode" value="opaque"></param>' +
+    '<embed src="{{url}}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="{{allowFullScreen}}" wmode="opaque"></embed>' +
 '</object></div>';
 
 $.extend($.fn.cycle.defaults, {
