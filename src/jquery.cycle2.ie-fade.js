@@ -31,6 +31,7 @@ $.extend($.fn.cycle.transitions, {
         before: function( opts , curr, next, fwd ) {
             var css = opts.API.getSlideOpts( opts.nextSlide ).slideCss || {};
             opts.API.stackSlides( curr, next, fwd );
+            opts.cssAfter = $.extend(css, { opacity: 0, visibility: 'hidden' });
             opts.cssBefore = $.extend(css, { opacity: 1, visibility: 'visible', display: 'block' });
             opts.animOut = { opacity: 0 };
             cleartype( true, opts, next );
