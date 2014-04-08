@@ -1,4 +1,4 @@
-/*! prevnext plugin for Cycle2;  version: 20130709 */
+/*! prevnext plugin for Cycle2;  version: 20140408 */
 (function($) {
 "use strict";
 
@@ -26,10 +26,14 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         var nextEvent = opts.swipeVert ? 'swipeUp.cycle' : 'swipeLeft.cycle swipeleft.cycle';
         var prevEvent = opts.swipeVert ? 'swipeDown.cycle' : 'swipeRight.cycle swiperight.cycle';
         opts.container.on( nextEvent, function(e) {
+            opts._swiping = true;
             opts.API.next();
+            opts._swiping = false;
         });
         opts.container.on( prevEvent, function() {
+            opts._swiping = true;
             opts.API.prev();
+            opts._swiping = false;
         });
     }
 });

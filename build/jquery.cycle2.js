@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.1.3 build: 20140314
+* jQuery Cycle2; version: 2.1.4 build: 20140408
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -8,7 +8,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.1.2';
+var version = '2.1.4';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -285,8 +285,12 @@ $.fn.cycle.API = {
     calcTx: function( slideOpts, manual ) {
         var opts = slideOpts;
         var tx;
-        if ( manual && opts.manualFx )
+
+        if ( manual && opts._swiping && opts.swipeFx )
+            tx = $.fn.cycle.transitions[opts.swipeFx];
+        else if ( manual && opts.manualFx )
             tx = $.fn.cycle.transitions[opts.manualFx];
+
         if ( !tx )
             tx = $.fn.cycle.transitions[opts.fx];
 
@@ -1209,7 +1213,7 @@ $.extend($.fn.cycle.defaults, {
     pagerEvent:       'click.cycle',
     pagerEventBubble: undefined,
     pagerTemplate:    '<span>&bull;</span>'
-});    
+});
 
 $(document).on( 'cycle-bootstrap', function( e, opts, API ) {
     // add method to API
@@ -1294,8 +1298,7 @@ function page( pager, target ) {
 
 })(jQuery);
 
-
-/*! prevnext plugin for Cycle2;  version: 20130709 */
+/*! prevnext plugin for Cycle2;  version: 20140408 */
 (function($) {
 "use strict";
 
@@ -1323,10 +1326,14 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         var nextEvent = opts.swipeVert ? 'swipeUp.cycle' : 'swipeLeft.cycle swipeleft.cycle';
         var prevEvent = opts.swipeVert ? 'swipeDown.cycle' : 'swipeRight.cycle swiperight.cycle';
         opts.container.on( nextEvent, function(e) {
+            opts._swiping = true;
             opts.API.next();
+            opts._swiping = false;
         });
         opts.container.on( prevEvent, function() {
+            opts._swiping = true;
             opts.API.prev();
+            opts._swiping = false;
         });
     }
 });
