@@ -2,7 +2,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.1.4';
+var version = '2.1.5';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -280,13 +280,16 @@ $.fn.cycle.API = {
         var opts = slideOpts;
         var tx;
 
-        if ( manual && opts._swiping && opts.swipeFx )
-            tx = $.fn.cycle.transitions[opts.swipeFx];
+        if ( opts._tempFx )
+            tx = $.fn.cycle.transitions[opts._tempFx];
         else if ( manual && opts.manualFx )
             tx = $.fn.cycle.transitions[opts.manualFx];
 
         if ( !tx )
             tx = $.fn.cycle.transitions[opts.fx];
+
+        opts._tempFx = null;
+        this.opts()._tempFx = null;
 
         if (!tx) {
             tx = $.fn.cycle.transitions.fade;

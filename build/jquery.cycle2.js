@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.1.4 build: 20140408
+* jQuery Cycle2; version: 2.1.5 build: 20140415
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -8,7 +8,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.1.4';
+var version = '2.1.5';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -286,13 +286,16 @@ $.fn.cycle.API = {
         var opts = slideOpts;
         var tx;
 
-        if ( manual && opts._swiping && opts.swipeFx )
-            tx = $.fn.cycle.transitions[opts.swipeFx];
+        if ( opts._tempFx )
+            tx = $.fn.cycle.transitions[opts._tempFx];
         else if ( manual && opts.manualFx )
             tx = $.fn.cycle.transitions[opts.manualFx];
 
         if ( !tx )
             tx = $.fn.cycle.transitions[opts.fx];
+
+        opts._tempFx = null;
+        this.opts()._tempFx = null;
 
         if (!tx) {
             tx = $.fn.cycle.transitions.fade;
@@ -860,7 +863,7 @@ $(document).on( 'cycle-destroyed', function( e, opts ) {
 
 })(jQuery);
 
-/*! command plugin for Cycle2;  version: 20130707 */
+/*! command plugin for Cycle2;  version: 20140415 */
 (function($) {
 "use strict";
 
@@ -956,7 +959,7 @@ $.extend( c2.API, {
         });
     },
 
-    jump: function( index ) {
+    jump: function( index, fx ) {
         // go to the requested slide
         var fwd;
         var opts = this.opts();
@@ -976,6 +979,7 @@ $.extend( c2.API, {
         opts.timeoutId = 0;
         opts.API.log('goto: ', num, ' (zero-index)');
         fwd = opts.currSlide < opts.nextSlide;
+        opts._tempFx = fx;
         opts.API.prepareTx( true, fwd );
     },
 
@@ -1203,7 +1207,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
 })(jQuery);
 
-/*! pager plugin for Cycle2;  version: 20140324 */
+/*! pager plugin for Cycle2;  version: 20140415 */
 (function($) {
 "use strict";
 
@@ -1292,6 +1296,7 @@ function page( pager, target ) {
         return; // no op, clicked pager for the currently displayed slide
     }
     opts.nextSlide = nextSlide;
+    opts._tempFx = opts.pagerFx;
     opts.API.prepareTx( true, fwd );
     opts.API.trigger('cycle-pager-activated', [opts, pager, target ]);
 }
@@ -1326,14 +1331,12 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         var nextEvent = opts.swipeVert ? 'swipeUp.cycle' : 'swipeLeft.cycle swipeleft.cycle';
         var prevEvent = opts.swipeVert ? 'swipeDown.cycle' : 'swipeRight.cycle swiperight.cycle';
         opts.container.on( nextEvent, function(e) {
-            opts._swiping = true;
+            opts._tempFx = opts.swipeFx;
             opts.API.next();
-            opts._swiping = false;
         });
         opts.container.on( prevEvent, function() {
-            opts._swiping = true;
+            opts._tempFx = opts.swipeFx;
             opts.API.prev();
-            opts._swiping = false;
         });
     }
 });
