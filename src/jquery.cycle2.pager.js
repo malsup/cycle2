@@ -7,7 +7,7 @@ $.extend($.fn.cycle.defaults, {
     pagerActiveClass: 'cycle-pager-active',
     pagerEvent:       'click.cycle',
     pagerEventBubble: undefined,
-    pagerTemplate:    '<span>&bull;</span>'
+    pagerTemplate:    '<button>&bull;</button>'
 });
 
 $(document).on( 'cycle-bootstrap', function( e, opts, API ) {
