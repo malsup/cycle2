@@ -131,6 +131,18 @@ $.fn.cycle.transitions.carousel = {
                     offset -= $(tmp[j])[vert?'outerHeight':'outerWidth'](true);
                 }
             }
+        } else {
+        	if ( opts.carouselSlideDimension ) {
+                offset -= ( (opts.slideCount + opts.currSlide) * opts.carouselSlideDimension );
+            } else {
+                // calculate offset based slide dimensions of preceding siblings of active slide
+                tmp = opts._carouselWrap.children();
+
+                tmp.filter('.active').prevAll().each(function () {
+                	offset -= ($(this)[vert?'outerHeight':'outerWidth'](true));
+                });
+                
+            }
         }
 
         opts._carouselWrap.css( vert ? 'top' : 'left', offset );
