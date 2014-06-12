@@ -10,7 +10,7 @@ var template = '<div class=cycle-youtube><object width="640" height="360">' +
     '<embed src="{{url}}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="{{allowFullScreen}}" wmode="opaque"></embed>' +
 '</object></div>';
 
-$.extend($.fn.cycle.defaults, {
+$.extend($.fn.cycle2.defaults, {
     youtubeAllowFullScreen: true,
     youtubeAutostart: false,
     youtubeAutostop:  true

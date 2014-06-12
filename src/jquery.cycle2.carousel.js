@@ -24,7 +24,7 @@ $( document ).on('cycle-bootstrap', function( e, opts, API ) {
 });
 
 
-$.fn.cycle.transitions.carousel = {
+$.fn.cycle2.transitions.carousel = {
     // transition API impl
     preInit: function( opts ) {
         opts.hideNonActive = false;

@@ -5,7 +5,7 @@
 
 var backface,
     style = document.createElement('div').style,
-    tx = $.fn.cycle.transitions,
+    tx = $.fn.cycle2.transitions,
     supported = style.transform !== undefined ||
         style.MozTransform !== undefined ||
         style.webkitTransform !== undefined ||

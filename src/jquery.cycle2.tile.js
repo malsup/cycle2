@@ -2,8 +2,8 @@
 (function ($) {
 "use strict";
 
-$.fn.cycle.transitions.tileSlide =
-$.fn.cycle.transitions.tileBlind = {
+$.fn.cycle2.transitions.tileSlide =
+$.fn.cycle2.transitions.tileBlind = {
 
     before: function( opts, curr, next, fwd ) {
         opts.API.stackSlides( curr, next, fwd );

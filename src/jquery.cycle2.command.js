@@ -2,14 +2,14 @@
 (function($) {
 "use strict";
 
-var c2 = $.fn.cycle;
+var c2 = $.fn.cycle2;
 
-$.fn.cycle = function( options ) {
+$.fn.cycle2 = function( options ) {
     var cmd, cmdFn, opts;
     var args = $.makeArray( arguments );
 
     if ( $.type( options ) == 'number' ) {
-        return this.cycle( 'goto', options );
+        return this.cycle2( 'goto', options );
     }
 
     if ( $.type( options ) == 'string' ) {
@@ -42,7 +42,7 @@ $.fn.cycle = function( options ) {
 };
 
 // copy props
-$.extend( $.fn.cycle, c2 );
+$.extend( $.fn.cycle2, c2 );
 
 $.extend( c2.API, {
     next: function() {
@@ -135,7 +135,7 @@ $.extend( c2.API, {
     reinit: function() {
         var opts = this.opts();
         opts.API.destroy();
-        opts.container.cycle();
+        opts.container.cycle2();
     },
 
     remove: function( index ) {
@@ -177,7 +177,7 @@ $(document).on('click.cycle', '[data-cycle-cmd]', function(e) {
     var el = $(this);
     var command = el.data('cycle-cmd');
     var context = el.data('cycle-context') || '.cycle-slideshow';
-    $(context).cycle(command, el.data('cycle-arg'));
+    $(context).cycle2(command, el.data('cycle-arg'));
 });
 
 

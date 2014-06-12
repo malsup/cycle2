@@ -2,7 +2,7 @@
 (function($) {
 "use strict";
 
-$.extend($.fn.cycle.defaults, {
+$.extend($.fn.cycle2.defaults, {
     autoHeight: 0, // setting this option to false disables autoHeight logic
     autoHeightSpeed: 250,
     autoHeightEasing: null

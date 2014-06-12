@@ -2,7 +2,7 @@
 (function($) {
 "use strict";
 
-$.extend($.fn.cycle.defaults, {
+$.extend($.fn.cycle2.defaults, {
     pager:            '> .cycle-pager',
     pagerActiveClass: 'cycle-pager-active',
     pagerEvent:       'click.cycle',
