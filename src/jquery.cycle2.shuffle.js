@@ -2,7 +2,7 @@
 (function($) {
 "use strict";
 
-$.fn.cycle.transitions.shuffle = {
+$.fn.cycle2.transitions.shuffle = {
 
     transition: function( opts, currEl, nextEl, fwd, callback ) {
         $( nextEl ).css({

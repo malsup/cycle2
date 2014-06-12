@@ -4,14 +4,14 @@
 
 var version = '2.1.5';
 
-$.fn.cycle = function( options ) {
+$.fn.cycle2 = function( options ) {
     // fix mistakes with the ready state
     var o;
     if ( this.length === 0 && !$.isReady ) {
         o = { s: this.selector, c: this.context };
-        $.fn.cycle.log('requeuing slideshow (dom not ready)');
+        $.fn.cycle2.log('requeuing slideshow (dom not ready)');
         $(function() {
-            $( o.s, o.c ).cycle(options);
+            $( o.s, o.c ).cycle2(options);
         });
         return this;
     }
@@ -19,7 +19,7 @@ $.fn.cycle = function( options ) {
     return this.each(function() {
         var data, opts, shortName, val;
         var container = $(this);
-        var log = $.fn.cycle.log;
+        var log = $.fn.cycle2.log;
 
         if ( container.data('cycle.opts') )
             return; // already initialized
@@ -42,14 +42,14 @@ $.fn.cycle = function( options ) {
             }
         }
 
-        opts = $.extend( {}, $.fn.cycle.defaults, data, options || {});
+        opts = $.extend( {}, $.fn.cycle2.defaults, data, options || {});
 
         opts.timeoutId = 0;
         opts.paused = opts.paused || false; // #57
         opts.container = container;
         opts._maxZ = opts.maxZ;
 
-        opts.API = $.extend ( { _container: container }, $.fn.cycle.API );
+        opts.API = $.extend ( { _container: container }, $.fn.cycle2.API );
         opts.API.log = log;
         opts.API.trigger = function( eventName, args ) {
             opts.container.trigger( eventName, args );
@@ -70,7 +70,7 @@ $.fn.cycle = function( options ) {
     });
 };
 
-$.fn.cycle.API = {
+$.fn.cycle2.API = {
     opts: function() {
         return this._container.data( 'cycle.opts' );
     },
@@ -93,7 +93,7 @@ $.fn.cycle.API = {
     preInitSlideshow: function() {
         var opts = this.opts();
         opts.API.trigger('cycle-pre-initialize', [ opts ]);
-        var tx = $.fn.cycle.transitions[opts.fx];
+        var tx = $.fn.cycle2.transitions[opts.fx];
         if (tx && $.isFunction(tx.preInit))
             tx.preInit( opts );
         opts._preInitialized = true;
@@ -102,7 +102,7 @@ $.fn.cycle.API = {
     postInitSlideshow: function() {
         var opts = this.opts();
         opts.API.trigger('cycle-post-initialize', [ opts ]);
-        var tx = $.fn.cycle.transitions[opts.fx];
+        var tx = $.fn.cycle2.transitions[opts.fx];
         if (tx && $.isFunction(tx.postInit))
             tx.postInit( opts );
     },
@@ -281,18 +281,18 @@ $.fn.cycle.API = {
         var tx;
 
         if ( opts._tempFx )
-            tx = $.fn.cycle.transitions[opts._tempFx];
+            tx = $.fn.cycle2.transitions[opts._tempFx];
         else if ( manual && opts.manualFx )
-            tx = $.fn.cycle.transitions[opts.manualFx];
+            tx = $.fn.cycle2.transitions[opts.manualFx];
 
         if ( !tx )
-            tx = $.fn.cycle.transitions[opts.fx];
+            tx = $.fn.cycle2.transitions[opts.fx];
 
         opts._tempFx = null;
         this.opts()._tempFx = null;
 
         if (!tx) {
-            tx = $.fn.cycle.transitions.fade;
+            tx = $.fn.cycle2.transitions.fade;
             opts.API.log('Transition "' + opts.fx + '" not found.  Using fade.');
         }
         return tx;
@@ -470,7 +470,7 @@ $.fn.cycle.API = {
             }
         }
 
-        slideOpts = $.extend( {}, $.fn.cycle.defaults, opts, slideOpts );
+        slideOpts = $.extend( {}, $.fn.cycle2.defaults, opts, slideOpts );
         slideOpts.slideNum = opts.slideCount;
 
         try {
@@ -596,13 +596,13 @@ $.fn.cycle.API = {
 }; // API
 
 // default logger
-$.fn.cycle.log = function log() {
+$.fn.cycle2.log = function log() {
     /*global console:true */
     if (window.console && console.log)
         console.log('[cycle2] ' + Array.prototype.join.call(arguments, ' ') );
 };
 
-$.fn.cycle.version = function() { return 'Cycle2: ' + version; };
+$.fn.cycle2.version = function() { return 'Cycle2: ' + version; };
 
 // helper functions
 
@@ -611,7 +611,7 @@ function lowerCase(s) {
 }
 
 // expose transition object
-$.fn.cycle.transitions = {
+$.fn.cycle2.transitions = {
     custom: {
     },
     none: {
@@ -650,7 +650,7 @@ $.fn.cycle.transitions = {
 };
 
 // @see: http://jquery.malsup.com/cycle2/api
-$.fn.cycle.defaults = {
+$.fn.cycle2.defaults = {
     allowWrap:        true,
     autoSelector:     '.cycle-slideshow[data-cycle-auto-init!=false]',
     delay:            0,
@@ -677,7 +677,7 @@ $.fn.cycle.defaults = {
 
 // automatically find and run slideshows
 $(document).ready(function() {
-    $( $.fn.cycle.defaults.autoSelector ).cycle();
+    $( $.fn.cycle2.defaults.autoSelector ).cycle2();
 });
 
 })(jQuery);

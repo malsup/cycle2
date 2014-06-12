@@ -2,7 +2,7 @@
 (function($) {
 "use strict";
 
-$.extend($.fn.cycle.defaults, {
+$.extend($.fn.cycle2.defaults, {
     progressive: false
 });
 

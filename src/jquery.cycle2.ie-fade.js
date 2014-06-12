@@ -13,7 +13,7 @@ function cleartype(before, opts, el) {
     }
 }
 
-$.extend($.fn.cycle.transitions, {
+$.extend($.fn.cycle2.transitions, {
     fade: {
         before: function( opts, curr, next, fwd ) {
             var css = opts.API.getSlideOpts( opts.nextSlide ).slideCss || {};

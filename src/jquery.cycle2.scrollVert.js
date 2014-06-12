@@ -2,7 +2,7 @@
 (function($) {
 "use strict";
 
-$.fn.cycle.transitions.scrollVert = {
+$.fn.cycle2.transitions.scrollVert = {
     before: function( opts, curr, next, fwd ) {
         opts.API.stackSlides( opts, curr, next, fwd );
         var height = opts.container.css('overflow','hidden').height();

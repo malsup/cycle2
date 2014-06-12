@@ -2,13 +2,13 @@
 (function($) {
 "use strict";
 
-$.extend($.fn.cycle.defaults, {
+$.extend($.fn.cycle2.defaults, {
     tmplRegex: '{{((.)?.*?)}}'
 });
 
-$.extend($.fn.cycle.API, {
+$.extend($.fn.cycle2.API, {
     tmpl: function( str, opts /*, ... */) {
-        var regex = new RegExp( opts.tmplRegex || $.fn.cycle.defaults.tmplRegex, 'g' );
+        var regex = new RegExp( opts.tmplRegex || $.fn.cycle2.defaults.tmplRegex, 'g' );
         var args = $.makeArray( arguments );
         args.shift();
         return str.replace(regex, function(_, str) {
