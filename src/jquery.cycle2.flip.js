@@ -48,17 +48,17 @@ function getTransition( rotateFn ) {
                 speed = opts.speed / 2;
 
             // css before transition start
-            rotateFn.call(next, -90);
+            rotateFn.call(next, fwd ? -90 : 90);
             next.css({
                 'display': 'block',
                 'visibility': 'visible',
-                'background-position': '-90px',
+                'background-position': fwd ? '-90px' : '90px',
                 'opacity': 1
             });
 
             curr.css('background-position', '0px');
 
-            curr.animate({ backgroundPosition: 90 }, {
+            curr.animate({ backgroundPosition: fwd ? 90 : -90 }, {
                 step: rotateFn,
                 duration: speed,
                 easing: opts.easeOut || opts.easing,
