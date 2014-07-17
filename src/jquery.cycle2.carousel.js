@@ -9,7 +9,7 @@ $( document ).on('cycle-bootstrap', function( e, opts, API ) {
     API.getSlideIndex = function( el ) {
         var slides = this.opts()._carouselWrap.children();
         var i = slides.index( el );
-        return i % slides.length;
+        return i % opts.slideCount;
     };
 
     // override default 'next' function
