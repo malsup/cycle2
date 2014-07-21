@@ -94,7 +94,9 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
                 var slide = slides[ 0 ];
                 slides = slides.slice( 1 );
                 opts.container.one('cycle-slide-added', function(e, opts ) {
-                    nextFn.apply( opts.API );
+                    setTimeout(function () {
+                        nextFn.apply( opts.API );
+                    },50);
                     opts.container.removeClass('cycle-loading');
                 });
                 opts.container.addClass('cycle-loading');
@@ -115,7 +117,9 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
                 slides = slides.slice( 0, index );
                 opts.container.one('cycle-slide-added', function(e, opts ) {
                     opts.currSlide = 1;
-                    opts.API.advanceSlide( -1 );
+                    setTimeout(function () {
+                        opts.API.advanceSlide( -1 );
+                    },50);
                     opts.container.removeClass('cycle-loading');
                 });
                 opts.container.addClass('cycle-loading');
