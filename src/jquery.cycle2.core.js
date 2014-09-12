@@ -302,6 +302,9 @@ $.fn.cycle.API = {
         var opts = this.opts();
         var after, curr, next, slideOpts, tx;
 
+        // included to fix issue #240 - slideCount undefined error when using js MVC frameworks (e.g. angular or backbone)
+        if (! opts) return;
+        
         if ( opts.slideCount < 2 ) {
             opts.timeoutId = 0;
             return;
