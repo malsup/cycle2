@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.1.5 build: 20140415
+* jQuery Cycle2; version: 2.1.5 build: 20140923
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -914,7 +914,7 @@ $.extend( c2.API, {
         var opts = this.opts();
         if ( opts.busy && ! opts.manualTrump )
             return;
-        
+
         var count = opts.reverse ? -1 : 1;
         if ( opts.allowWrap === false && ( opts.currSlide + count ) >= opts.slideCount )
             return;
@@ -954,7 +954,9 @@ $.extend( c2.API, {
             opts.slides.removeClass( opts.slideActiveClass );
         }
         opts.slides.each(function() {
-            $(this).removeData();
+            var slide = $(this);
+            slide.removeData();
+            slide.removeClass( opts.slideClass );
             clean( this, 'parsedAttrs', false );
         });
     },
