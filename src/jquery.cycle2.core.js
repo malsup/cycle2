@@ -84,7 +84,17 @@ $.fn.cycle.API = {
         slides = slides.jquery ? slides : opts.container.find( slides );
 
         if ( opts.random ) {
-            slides.sort(function() {return Math.random() - 0.5;});
+            slides = (function(a) {  // Fisher-Yates shuffle
+                var i, j, t;
+                i = a.length;
+                while (--i > 0) {
+                    j = ~~(Math.random() * (i + 1));
+                    t = a[j];
+                    a[j] = a[i];
+                    a[i] = t;
+                }
+                return a;
+            })(slides);
         }
 
         opts.API.add( slides );
