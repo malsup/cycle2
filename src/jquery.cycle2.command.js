@@ -49,7 +49,7 @@ $.extend( c2.API, {
         var opts = this.opts();
         if ( opts.busy && ! opts.manualTrump )
             return;
-        
+
         var count = opts.reverse ? -1 : 1;
         if ( opts.allowWrap === false && ( opts.currSlide + count ) >= opts.slideCount )
             return;
@@ -89,7 +89,9 @@ $.extend( c2.API, {
             opts.slides.removeClass( opts.slideActiveClass );
         }
         opts.slides.each(function() {
-            $(this).removeData();
+            var slide = $(this);
+            slide.removeData();
+            slide.removeClass( opts.slideClass );
             clean( this, 'parsedAttrs', false );
         });
     },
