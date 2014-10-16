@@ -1,5 +1,5 @@
 /*!
-* jQuery Cycle2; version: 2.1.6 build: 20141007
+* jQuery Cycle2; version: 2.1.6 build: 20141015
 * http://jquery.malsup.com/cycle2/
 * Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
 */
@@ -1399,7 +1399,9 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
         slides = opts.progressive( opts );
     }
     else if ( type == 'string' ) {
-        scriptEl = $( opts.progressive );
+
+        // if selector is a child, sibling combinator, adjancent selector then use find, otherwise query full dom
+        scriptEl = (/^\s*[\>|\+|~]/).test( opts.progressive ) ? opts.container.find( opts.progressive ) : $( opts.progressive );
         slides = $.trim( scriptEl.html() );
         if ( !slides )
             return;
