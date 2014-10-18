@@ -18,7 +18,6 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         return;
 
     // bind events
-    opts.container.on( 'cycle-slide-added cycle-slide-removed', initAutoHeight );
     opts.container.on( 'cycle-destroyed', onDestroy );
 
     if ( autoHeight == 'container' ) {
@@ -31,15 +30,15 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         opts._autoHeightRatio = ratio;
     }
 
-    // if autoHeight is a number then we don't need to recalculate the sentinel
-    // index on resize
+    // if autoHeight is calc or ratio then we need to recalculate the sentinel
+    // index on resize, and also on slide-added/slide-removed
     if ( t !== 'number' ) {
         // bind unique resize handler per slideshow (so it can be 'off-ed' in onDestroy)
         opts._autoHeightOnResize = function () {
             clearTimeout( resizeThrottle );
             resizeThrottle = setTimeout( onResize, 50 );
         };
-
+        opts.container.on( 'cycle-slide-added cycle-slide-removed', opts._autoHeightOnResize );
         $(window).on( 'resize orientationchange', opts._autoHeightOnResize );
     }
 
