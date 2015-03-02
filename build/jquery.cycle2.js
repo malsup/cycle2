@@ -1,7 +1,7 @@
 /*!
-* jQuery Cycle2; version: 2.1.6 build: 20141007
+* jQuery Cycle2; version: 2.1.6 build: 20150302
 * http://jquery.malsup.com/cycle2/
-* Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
+* Copyright (c) 2015 M. Alsup; Dual licensed: MIT/GPL
 */
 
 /* Cycle2 core engine */
@@ -25,15 +25,15 @@ $.fn.cycle = function( options ) {
     return this.each(function() {
         var data, opts, shortName, val;
         var container = $(this);
-        var log = $.fn.cycle.log;
+        var log = $.noop;
 
         if ( container.data('cycle.opts') )
             return; // already initialized
 
-        if ( container.data('cycle-log') === false || 
-            ( options && options.log === false ) ||
-            ( opts && opts.log === false) ) {
-            log = $.noop;
+        if ( container.data('cycle-log') === true ||
+            ( options && options.log === true ) ||
+            ( opts && opts.log === true) ) {
+            log = $.fn.cycle.log;
         }
 
         log('--c2 init--');
