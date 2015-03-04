@@ -18,7 +18,6 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
         return;
 
     // bind events
-    opts.container.on( 'cycle-slide-added cycle-slide-removed', initAutoHeight );
     opts.container.on( 'cycle-destroyed', onDestroy );
 
     if ( autoHeight == 'container' ) {
@@ -40,6 +39,7 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
             resizeThrottle = setTimeout( onResize, 50 );
         };
 
+        opts.container.on( 'cycle-slide-added cycle-slide-removed', opts._autoHeightOnResize );
         $(window).on( 'resize orientationchange', opts._autoHeightOnResize );
     }
 
