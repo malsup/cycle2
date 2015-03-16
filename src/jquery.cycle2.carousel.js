@@ -143,7 +143,7 @@ $.fn.cycle.transitions.carousel = {
         var prepareDimensions = this.prepareDimensions;
 
         // throttle resize event
-        $(window).on( 'resize', resizeThrottle);
+        $(window).on( 'load resize', resizeThrottle);
 
         opts._carouselResizeThrottle = resizeThrottle;
         onResize();
@@ -156,7 +156,6 @@ $.fn.cycle.transitions.carousel = {
         function onResize() {
             opts._carouselWrap.stop( false, true );
             var slideWidth = opts.container.width() / opts.carouselVisible;
-            slideWidth = Math.ceil( slideWidth - adjustment );
             opts._carouselWrap.children().width( slideWidth );
             if ( opts._sentinel )
                 opts._sentinel.width( slideWidth );
