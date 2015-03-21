@@ -2,13 +2,9 @@
 (function($) {
 "use strict";
 
-var template = '<div class=cycle-youtube><object width="640" height="360">' +
-    '<param name="movie" value="{{url}}"></param>' +
-    '<param name="allowFullScreen" value="{{allowFullScreen}}"></param>' +
-    '<param name="allowscriptaccess" value="always"></param>' +
-    '<param name="wmode" value="opaque"></param>' +
-    '<embed src="{{url}}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="{{allowFullScreen}}" wmode="opaque"></embed>' +
-'</object></div>';
+var template = '<div class=cycle-youtube>' + 
+	'<iframe id="{{divid}}" width="640" height="360" src="{{url}}" frameborder="0" type="text/html" allowfullscreen="{{allowFullScreen}}" allowscriptaccess="always"></iframe>' + 
+'</div>';
 
 $.extend($.fn.cycle.defaults, {
     youtubeAllowFullScreen: true,
@@ -29,10 +25,10 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
             return;
         var markup, slide = $(this), url = slide.attr( 'href' );
         var fs = opts.youtubeAllowFullScreen ? 'true' : 'false';
-        url += ( /\?/.test( url ) ? '&' : '?') + 'enablejsapi=1';
+        url += ( /\?/.test( url ) ? '&' : '?') + 'enablejsapi=1&rel=0';
         if ( opts.youtubeAutostart && opts.startingSlide === i )
             url += '&autoplay=1';
-        markup = opts.API.tmpl( template, { url: url, allowFullScreen: fs });
+        markup = opts.API.tmpl( template, { url: url, allowFullScreen: fs, divid: "divid" + i });
         slide.replaceWith( markup );
     });
     opts.slides = opts.slides.replace(/(\b>?a\b)/,'div.cycle-youtube');
@@ -40,30 +36,15 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
     if ( opts.youtubeAutostart ) {
         opts.container.on( 'cycle-initialized cycle-after', function( e, opts ) {
             var index = e.type == 'cycle-initialized' ? opts.currSlide : opts.nextSlide;
-            $( opts.slides[ index ] ).find('object,embed').each( play );
+            callPlayer(opts.slides[ index ].firstChild.id, 'playVideo');
         });
     }
 
     if ( opts.youtubeAutostop ) {
         opts.container.on( 'cycle-before', function( e, opts ) {
-            $( opts.slides[ opts.currSlide ] ).find('object,embed').each( pause );
+            callPlayer(opts.slides[ opts.currSlide ].firstChild.id, 'stopVideo');
         });
     }
 });
-
-function play() {
-    /*jshint validthis:true */
-    try {
-        this.playVideo();
-    }
-    catch( ignore ) {}
-}
-function pause() {
-    /*jshint validthis:true */
-    try {
-        this.pauseVideo();
-    }
-    catch( ignore ) {}
-}
 
 })(jQuery);
