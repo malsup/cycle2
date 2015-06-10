@@ -79,8 +79,11 @@ $.extend( c2.API, {
         opts.timeoutId = 0;
         opts.API.stop();
         opts.API.trigger( 'cycle-destroyed', [ opts ] ).log('cycle-destroyed');
-        opts.container.removeData();
+        opts.container.removeData(['cycle.API', 'cycle.opts']);
         clean( opts.container[0], 'parsedAttrs', false );
+
+        if ( opts._sentinel )
+            opts._sentinel.remove();
 
         // #75; remove inline styles
         if ( ! opts.retainStylesOnDestroy ) {
