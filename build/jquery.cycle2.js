@@ -744,7 +744,7 @@ function initAutoHeight( e, opts ) {
     var clone, height, sentinelIndex;
     var autoHeight = opts.autoHeight;
 
-    if ( autoHeight == 'container' ) {
+    if ( autoHeight == 'container' && opts._autoHeightRatio ) {
         height = $( opts.slides[ opts.currSlide ] ).outerHeight();
         opts.container.height( height );
     }
