@@ -741,14 +741,10 @@ $(document).on( 'cycle-initialized', function( e, opts ) {
 });
 
 function initAutoHeight( e, opts ) {
-    if (!opts._autoHeightOnResize) {
-        return;
-    }
-
     var clone, height, sentinelIndex;
     var autoHeight = opts.autoHeight;
 
-    if ( autoHeight == 'container' ) {
+    if ( autoHeight == 'container' && opts._autoHeightRatio ) {
         height = $( opts.slides[ opts.currSlide ] ).outerHeight();
         opts.container.height( height );
     }
