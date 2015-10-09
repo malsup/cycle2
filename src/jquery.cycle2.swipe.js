@@ -6,6 +6,11 @@
 // if you have jQuery Mobile installed, you do NOT need this script
 
 var supportTouch = 'ontouchend' in document;
+var swipeType;
+
+$(document).on( 'cycle-initialized', function( e, opts ) {
+    swipeType = opts.swipeType || 'horizontal';
+});
 
 $.event.special.swipe = $.event.special.swipe || {
     scrollSupressionThreshold: 10,   // More than this horizontal displacement, and we will suppress scrolling.
@@ -45,13 +50,18 @@ $.event.special.swipe = $.event.special.swipe || {
                 .one( 'touchend', function( event ) {
                     $this.unbind( 'touchmove', moveHandler );
 
-                    if ( start && stop ) {
-                        if ( stop.time - start.time < $.event.special.swipe.durationThreshold &&
+                    if ( start && stop && (stop.time - start.time < $.event.special.swipe.durationThreshold)) {
+                        if (swipeType == 'horizontal' && 
                                 Math.abs( start.coords[ 0 ] - stop.coords[ 0 ] ) > $.event.special.swipe.horizontalDistanceThreshold &&
-                                Math.abs( start.coords[ 1 ] - stop.coords[ 1 ] ) < $.event.special.swipe.verticalDistanceThreshold ) {
+                                Math.abs( start.coords[ 1 ] - stop.coords[ 1 ] ) < $.event.special.swipe.verticalDistanceThreshold) {
 
-                            start.origin.trigger( "swipe" )
-                                .trigger( start.coords[0] > stop.coords[ 0 ] ? "swipeleft" : "swiperight" );
+                                    start.origin.trigger( "swipe" )
+                                        .trigger( start.coords[0] > stop.coords[ 0 ] ? "swipeleft" : "swiperight" );
+                        } else if (Math.abs( start.coords[ 1 ] - stop.coords[ 1 ] ) > $.event.special.swipe.horizontalDistanceThreshold &&
+                                Math.abs( start.coords[ 0 ] - stop.coords[ 0 ] ) < $.event.special.swipe.verticalDistanceThreshold) {
+
+                                    start.origin.trigger( "swipe" )
+                                        .trigger( start.coords[1] > stop.coords[ 1 ] ? "swiperight" : "swipeleft" );
                         }
                     }
                     start = stop = undefined;
