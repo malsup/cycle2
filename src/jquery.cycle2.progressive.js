@@ -13,6 +13,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     var API = opts.API;
     var nextFn = API.next;
     var prevFn = API.prev;
+    var updateView = API.updateView;
     var prepareTxFn = API.prepareTx;
     var type = $.type( opts.progressive );
     var slides, scriptEl;
@@ -126,6 +127,47 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
             }
         };
     }
+
+    if ( updateView ) {
+        API.updateView = function( isAfter, isDuring, forceEvent ) {
+            var opts = this.opts();
+            if ( !opts._initialized )
+                return;
+            var slideOpts = opts.API.getSlideOpts();
+            var currSlide = opts.slides[ opts.currSlide ];
+
+            if ( ! isAfter && isDuring !== true ) {
+                opts.API.trigger('cycle-update-view-before', [ opts, slideOpts, currSlide ]);
+                if ( opts.updateView < 0 )
+                    return;
+            }
+
+            if ( opts.slideActiveClass ) {
+                opts.slides.removeClass( opts.slideActiveClass )
+                    .eq( opts.currSlide ).addClass( opts.slideActiveClass );
+            }
+
+            if ( isAfter && opts.hideNonActive ) {
+                if( !opts.progressive )
+                    opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).css('visibility', 'hidden');
+                else
+                    opts.slides.filter( ':not(.' + opts.slideActiveClass + ')' ).fadeTo(slideOpts.speed / (opts.sync ? 2 : 1),0);
+            }
+
+            if ( opts.updateView === 0 ) {
+                setTimeout(function() {
+                    opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
+                }, slideOpts.speed / (opts.sync ? 2 : 1) );
+            }
+
+            if ( opts.updateView !== 0 )
+                opts.API.trigger('cycle-update-view', [ opts, slideOpts, currSlide, isAfter ]);
+            
+            if ( isAfter )
+                opts.API.trigger('cycle-update-view-after', [ opts, slideOpts, currSlide ]);
+        };
+    }
+
 });
 
 })(jQuery);
