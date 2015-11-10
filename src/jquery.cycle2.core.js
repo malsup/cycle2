@@ -550,7 +550,16 @@ $.fn.cycle.API = {
         var selector = opts[name];
         if (typeof selector === 'string') {
             // if selector is a child, sibling combinator, adjancent selector then use find, otherwise query full dom
-            return (/^\s*[\>|\+|~]/).test( selector ) ? opts.container.find( selector ) : $( selector );
+            if ( ( /^\s*[\>|\+|~]/).test( selector ) ) {
+                return opts.container.find( selector );
+            }  else {
+                var inParent = opts.container.parent().find( selector );
+                if(inParent.length > 0) {
+                    return inParent;
+                } else {
+                    return $( selector );
+                }
+            }
         }
         if (selector.jquery)
             return selector;
