@@ -1,7 +1,7 @@
 /*!
-* jQuery Cycle2; version: 2.1.6 build: 20141007
+* jQuery Cycle2; version: 2.1.6 build: 20151110
 * http://jquery.malsup.com/cycle2/
-* Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
+* Copyright (c) 2015 M. Alsup; Dual licensed: MIT/GPL
 */
 
 /* Cycle2 core engine */
@@ -397,7 +397,7 @@ $.fn.cycle.API = {
     queueTransition: function( slideOpts, specificTimeout ) {
         var opts = this.opts();
         var timeout = specificTimeout !== undefined ? specificTimeout : slideOpts.timeout;
-        if (opts.nextSlide === 0 && --opts.loop === 0) {
+        if (opts.nextSlide === 0 && opts.loop === 0) {
             opts.API.log('terminating; loop=0');
             opts.timeout = 0;
             if ( timeout ) {
@@ -556,7 +556,16 @@ $.fn.cycle.API = {
         var selector = opts[name];
         if (typeof selector === 'string') {
             // if selector is a child, sibling combinator, adjancent selector then use find, otherwise query full dom
-            return (/^\s*[\>|\+|~]/).test( selector ) ? opts.container.find( selector ) : $( selector );
+            if ( ( /^\s*[\>|\+|~]/).test( selector ) ) {
+                return opts.container.find( selector );
+            }  else {
+                var inParent = opts.container.parent().find( selector );
+                if(inParent.length > 0) {
+                    return inParent;
+                } else {
+                    return $( selector );
+                }
+            }
         }
         if (selector.jquery)
             return selector;
