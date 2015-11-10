@@ -391,7 +391,7 @@ $.fn.cycle.API = {
     queueTransition: function( slideOpts, specificTimeout ) {
         var opts = this.opts();
         var timeout = specificTimeout !== undefined ? specificTimeout : slideOpts.timeout;
-        if (opts.nextSlide === 0 && --opts.loop === 0) {
+        if (opts.nextSlide === 0 && opts.loop === 0) {
             opts.API.log('terminating; loop=0');
             opts.timeout = 0;
             if ( timeout ) {
