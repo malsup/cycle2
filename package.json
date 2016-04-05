@@ -1,6 +1,6 @@
 {
   "name": "jquery-cycle2",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "homepage": "http://jquery.malsup.com/cycle2",
   "engines": {
     "node": ">= 0.6.0"
