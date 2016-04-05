@@ -1,9 +1,9 @@
 {
-  "name": "jquery-cycle2",
-  "version": "2.1.6",
-  "homepage": "https://github.com/malsup/cycle2",
+  "name": "jquery-cycle2-patched",
+  "version": "2.1.7",
+  "homepage": "https://github.com/dnlomnimedia/cycle2",
   "authors": [
-    "malsup <malsup@gmail.com>"
+    "malsup <info@dnlomnimedia.com>"
   ],
   "description": "jQuery plugin for kickass slideshows",
   "main": "build/jquery.cycle2.js",

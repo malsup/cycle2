@@ -3,8 +3,8 @@
 ## Getting Started
 Download either the [production version][min] or the [development version][max] of Cycle2.
 
-[min]: http://malsup.github.com/min/jquery.cycle2.min.js
-[max]: http://malsup.github.com/jquery.cycle2.js
+[min]: build/jquery.cycle2.min.js
+[max]: build/jquery.cycle2.js
 
 In your web page:
 
@@ -25,13 +25,30 @@ In your web page:
 </pre>
 That's it!  You don't need to write any script to initialize the slideshow, Cycle2 will auto-initialize if you use the class <code>cycle-slideshow</code>.
 
+
+This version of jquery cycle allows one to embed multiple slideshows with navigations on the page, without requiring custom JS to be written for each slideshow. The code below will render a slideshow and the navigation within the `slideshow__container` that applies only to that specific slideshow, no matter how many times it is inserted on the page.
+
+```
+<div class="slideshow__container">
+  <div class="slideshow cycle-slideshow" data-cycle-slides="> .slide" data-cycle-pager=".slideshow__navigation">
+    <div class="slide"></div>
+    <div class="slide"></div>
+  </div>
+  <div class="slideshow__navigation">
+    <span class="slideshow__prev"></span>
+    <span class="slideshow__next"></span>
+  </div>
+</div>
+```
+
+
 ## Documentation, Demos, Downloads and FAQ
-Everything you need to know can be found here: 
+Everything you need to know can be found here:
 [http://jquery.malsup.com/cycle2/](http://jquery.malsup.com/cycle2/)
 
 ## Bower
 To install Cycle2 via Bower:
-<pre>bower install jquery-cycle2</pre>
+<pre>bower install jquery-cycle2-patched</pre>
 The only file you will need (unless you're customizing) is <code>build/jquery.cycle2.min.js</code>
 
 (Other files are available for advanced customization and you can read more about them on the [download]
