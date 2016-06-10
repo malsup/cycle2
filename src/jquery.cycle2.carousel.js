@@ -234,7 +234,7 @@ $.fn.cycle.transitions.carousel = {
         }
         else {
             for (i=currSlide; i > currSlide+hops; i--)
-                moveBy += this.getDim( opts, i, vert);
+                moveBy += this.getDim( opts, i-1, vert);
         }
         return moveBy;
     },
