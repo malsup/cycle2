@@ -1156,7 +1156,7 @@
                         imageLoaded();
                     }
                     else {
-                        $(this).load(function() {
+                        $( this ).on( 'load', function() {
                             imageLoaded();
                         }).on("error", function() {
                             if ( --count === 0 ) {
