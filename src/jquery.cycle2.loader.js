@@ -1,4 +1,4 @@
-/*! loader plugin for Cycle2;  version: 20131121 */
+/*! loader plugin for Cycle2;  version: 20260120 */
 (function($) {
 "use strict";
 
@@ -18,9 +18,9 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
     function add( slides, prepend ) {
         var slideArr = [];
-        if ( $.type( slides ) == 'string' )
+        if ( typeof slides === 'string' )
             slides = $.trim( slides );
-        else if ( $.type( slides) === 'array' ) {
+        else if ( typeof slides === 'array' ) {
             for (var i=0; i < slides.length; i++ )
                 slides[i] = $(slides[i])[0];
         }
@@ -40,7 +40,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
             images = images.filter(':not(.cycle-loader-ignore)').filter(':not([src=""])');
             if ( ! images.length ) {
                 --slideCount;
-                slideArr.push( slide );
+                [].push.call( slideArr, slide );
                 return;
             }
 
@@ -51,7 +51,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
                     imageLoaded();
                 }
                 else {
-                    $(this).load(function() {
+                    $(this).on("load", function() {
                         imageLoaded();
                     }).on("error", function() {
                         if ( --count === 0 ) {
@@ -80,10 +80,10 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
         function addSlide( slide ) {
             var curr;
             if ( opts.loader == 'wait' ) {
-                slideArr.push( slide );
+                [].push.call( slideArr, slide );
                 if ( slideCount === 0 ) {
                     // #59; sort slides into original markup order
-                    slideArr.sort( sorter );
+                    [].sort.call(slideArr, sorter );
                     addFn.apply( opts.API, [ slideArr, prepend ] );
                     opts.container.removeClass('cycle-loading');
                 }

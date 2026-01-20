@@ -1,4 +1,4 @@
-/*! progressive loader plugin for Cycle2;  version: 20130315 */
+/*! progressive loader plugin for Cycle2;  version: 20260120 */
 (function($) {
 "use strict";
 
@@ -14,13 +14,13 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     var nextFn = API.next;
     var prevFn = API.prev;
     var prepareTxFn = API.prepareTx;
-    var type = $.type( opts.progressive );
+    var type = typeof opts.progressive;
     var slides, scriptEl;
 
     if ( type == 'array' ) {
         slides = opts.progressive;
     }
-    else if ($.isFunction( opts.progressive ) ) {
+    else if (typeof opts.progressive==='function' ) {
         slides = opts.progressive( opts );
     }
     else if ( type == 'string' ) {
@@ -31,7 +31,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
         // is it json array?
         if ( /^(\[)/.test( slides ) ) {
             try {
-                slides = $.parseJSON( slides );
+                if (slides!='') slides = JSON.parse( slides );
             }
             catch(err) {
                 API.log( 'error parsing progressive slides', err );

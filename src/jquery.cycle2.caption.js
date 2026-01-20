@@ -1,4 +1,4 @@
-/*! caption plugin for Cycle2;  version: 20130306 */
+/*! caption plugin for Cycle2;  version: 20260120 */
 (function($) {
 "use strict";
 

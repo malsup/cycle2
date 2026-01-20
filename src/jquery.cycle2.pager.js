@@ -1,4 +1,4 @@
-/*! pager plugin for Cycle2;  version: 20140415 */
+/*! pager plugin for Cycle2;  version: 20260120 */
 (function($) {
 "use strict";
 

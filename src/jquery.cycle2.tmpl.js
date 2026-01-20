@@ -1,4 +1,4 @@
-/*! tmpl plugin for Cycle2;  version: 20121227 */
+/*! tmpl plugin for Cycle2;  version: 20260120 */
 (function($) {
 "use strict";
 
@@ -27,7 +27,7 @@ $.extend($.fn.cycle.API, {
                     prop = obj[str];
                 }
 
-                if ($.isFunction(prop))
+                if (typeof prop==='function')
                     return prop.apply(obj, args);
                 if (prop !== undefined && prop !== null && prop != str)
                     return prop;

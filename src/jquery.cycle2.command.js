@@ -1,4 +1,4 @@
-/*! command plugin for Cycle2;  version: 20140415 */
+/*! command plugin for Cycle2;  version: 20260120 */
 (function($) {
 "use strict";
 
@@ -8,11 +8,11 @@ $.fn.cycle = function( options ) {
     var cmd, cmdFn, opts;
     var args = $.makeArray( arguments );
 
-    if ( $.type( options ) == 'number' ) {
+    if ( typeof options === 'number' ) {
         return this.cycle( 'goto', options );
     }
 
-    if ( $.type( options ) == 'string' ) {
+    if ( typeof options === 'string' ) {
         return this.each(function() {
             var cmdArgs;
             cmd = options;
@@ -25,7 +25,7 @@ $.fn.cycle = function( options ) {
             else {
                 cmd = cmd == 'goto' ? 'jump' : cmd; // issue #3; change 'goto' to 'jump' internally
                 cmdFn = opts.API[ cmd ];
-                if ( $.isFunction( cmdFn )) {
+                if ( typeof  cmdFn ==='function') {
                     cmdArgs = $.makeArray( args );
                     cmdArgs.shift();
                     return cmdFn.apply( opts.API, cmdArgs );
@@ -74,7 +74,7 @@ $.extend( c2.API, {
         this.stop(); //#204
 
         var opts = this.opts();
-        var clean = $.isFunction( $._data ) ? $._data : $.noop;  // hack for #184 and #201
+        var clean = (typeof $._data==='function') ? $._data : $.noop;  // hack for #184 and #201
         clearTimeout(opts.timeoutId);
         opts.timeoutId = 0;
         opts.API.stop();
@@ -149,7 +149,7 @@ $.extend( c2.API, {
                 slideToRemove = slide;
             }
             else {
-                slides.push( slide );
+                [].push.call( slides, slide );
                 $( slide ).data('cycle.opts').slideNum = slideNum;
                 slideNum++;
             }

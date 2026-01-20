@@ -2,7 +2,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.1.6';
+var version = '2.1.7';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -31,7 +31,7 @@ $.fn.cycle = function( options ) {
         }
 
         log('--c2 init--');
-        data = container.data();
+        data = $.extend({}, container.data() || {});
         for (var p in data) {
             // allow props to be accessed sans 'cycle' prefix and log the overrides
             if (data.hasOwnProperty(p) && /^cycle[A-Z]+/.test(p) ) {
@@ -84,7 +84,7 @@ $.fn.cycle.API = {
         slides = slides.jquery ? slides : opts.container.find( slides );
 
         if ( opts.random ) {
-            slides.sort(function() {return Math.random() - 0.5;});
+            [].sort.call(slides, function(a, b) { return Math.random() - 0.5; } );
         }
 
         opts.API.add( slides );
@@ -94,7 +94,7 @@ $.fn.cycle.API = {
         var opts = this.opts();
         opts.API.trigger('cycle-pre-initialize', [ opts ]);
         var tx = $.fn.cycle.transitions[opts.fx];
-        if (tx && $.isFunction(tx.preInit))
+        if (tx && typeof tx.preInit==='function')
             tx.preInit( opts );
         opts._preInitialized = true;
     },
@@ -103,7 +103,7 @@ $.fn.cycle.API = {
         var opts = this.opts();
         opts.API.trigger('cycle-post-initialize', [ opts ]);
         var tx = $.fn.cycle.transitions[opts.fx];
-        if (tx && $.isFunction(tx.postInit))
+        if (tx && typeof tx.postInit==='function')
             tx.postInit( opts );
     },
 
@@ -127,11 +127,11 @@ $.fn.cycle.API = {
             // allow pauseOnHover to specify an element
             if ( opts.pauseOnHover !== true )
                 pauseObj = $( opts.pauseOnHover );
-
-            pauseObj.hover(
-                function(){ opts.API.pause( true ); }, 
-                function(){ opts.API.resume( true ); }
-            );
+            pauseObj.on('mouseenter', function() {
+        	opts.API.pause( true );
+            }).on('mouseleave', function() {
+            	opts.API.resume( true );
+            });
         }
 
         // stage initial transition
@@ -165,7 +165,7 @@ $.fn.cycle.API = {
                 opts.timeoutId = 0;
                 
                 // determine how much time is left for the current slide
-                opts._remainingTimeout -= ( $.now() - opts._lastQueue );
+                opts._remainingTimeout -= ( Date.now() - opts._lastQueue );
                 if ( opts._remainingTimeout < 0 || isNaN(opts._remainingTimeout) )
                     opts._remainingTimeout = undefined;
             }
@@ -199,7 +199,7 @@ $.fn.cycle.API = {
         var startSlideshow = false;
         var len;
 
-        if ( $.type(slides) == 'string')
+        if ( typeof slides === 'string')
             slides = $.trim( slides );
 
         $( slides ).each(function(i) {
@@ -408,7 +408,7 @@ $.fn.cycle.API = {
         }
         if ( opts.continueAuto !== undefined ) {
             if ( opts.continueAuto === false || 
-                ($.isFunction(opts.continueAuto) && opts.continueAuto() === false )) {
+                (typeof opts.continueAuto==='function' && opts.continueAuto() === false )) {
                 opts.API.log('terminating automatic transitions');
                 opts.timeout = 0;
                 if ( opts.timeoutId )
@@ -417,7 +417,7 @@ $.fn.cycle.API = {
             }
         }
         if ( timeout ) {
-            opts._lastQueue = $.now();
+            opts._lastQueue = Date.now();
             if ( specificTimeout === undefined )
                 opts._remainingTimeout = slideOpts.timeout;
 
@@ -459,7 +459,7 @@ $.fn.cycle.API = {
     buildSlideOpts: function( slide ) {
         var opts = this.opts();
         var val, shortName;
-        var slideOpts = slide.data() || {};
+        var slideOpts = $.extend({}, slide.data() || {} );
         for (var p in slideOpts) {
             // allow props to be accessed sans 'cycle' prefix and log the overrides
             if (slideOpts.hasOwnProperty(p) && /^cycle[A-Z]+/.test(p) ) {
@@ -646,7 +646,16 @@ $.fn.cycle.transitions = {
             opts.animIn = { left: 0 };
             opts.animOut = { left: fwd ? -w : w };
         }
-    }
+    },
+    scrollVert: {
+        before: function( opts, curr, next, fwd ) {
+            opts.API.stackSlides( opts, curr, next, fwd );
+            var height = opts.container.css('overflow','hidden').height();
+            opts.cssBefore = { top: fwd ? -height : height, left: 0, opacity: 1, display: 'block', visibility: 'visible' };
+            opts.animIn = { top: 0 };
+            opts.animOut = { top: fwd ? height : -height };
+        }
+    },
 };
 
 // @see: http://jquery.malsup.com/cycle2/api
